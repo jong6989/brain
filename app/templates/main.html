@@ -1,0 +1,105 @@
+
+<div layout="column" style="height:{{get_window_height()}}px;">
+
+	<md-toolbar md-scroll-shrink="" ng-if="true" class="bg-blue-grey"  >
+	    <div class="md-toolbar-tools">
+	        <md-button ng-click="toggleLeft()" hide-gt-md class="md-icon-button" aria-label="RightSide" >
+	          <i class="fa fa-bars"></i>
+	        </md-button>
+	        <h2 flex="" md-truncate="" class="">Online Permitting - {{page_title}}</h2>
+	        <md-button ng-click="toggleRight()" ng-hide="isOpenRight()" class="md-icon-button" aria-label="More">
+	          <i class="fa fa-ellipsis-v font-24"></i>
+	        </md-button>
+	    </div>
+	</md-toolbar>
+
+
+	<section layout="row" flex >
+
+	<md-sidenav layout="column" class="md-sidenav-left" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')" md-whiteframe="4" >
+
+	  
+	  <md-content flex layout="column" >
+
+	    <div  layout="row" class="bg-black" layout-padding="20">
+	      <div flex="30">
+	        <img src="images/brain_logo.png" width="100%" alt="PCSD BRAIN">
+	      </div>
+	      <div flex="70" layout="column">
+	        <div class="font-16">{{ user.data.first_name }} {{ user.data.middle_name }} {{ user.data.last_name }}</div>
+	        <div class="font-14">{{ getUserType(user.user_level) }}</div>
+	        <i class="fa fa-gear" ng-click="toggleRight()"></i>
+	        <md-button ng-click="logout()" class="font-10 m-b--10 col-yellow" aria-label="Log-out">
+						<strong>Log-out</strong>
+					</md-button>
+	      </div>
+	    </div>
+	    
+	    <div flex="70" layout="column"  class="start center" >
+		    <a ng-repeat="x in menus" ng-click="close_left_side()" href="#!{{x.url}}">
+		    	<md-button ng-disabled="isActive('/'+x.url)" aria-label="{{x.name}}">
+		    		<i class="fa {{x.icon}}"></i>
+		    		{{x.name}}
+		    	</md-button>
+		    </a>
+
+	    </div>
+
+	  </md-content>
+
+	</md-sidenav>
+
+	<!-- main content -->
+	<div flex layout-padding class="bg-light-grey" >
+		<md-content md-whiteframe="3" layout-padding="20" layout="column" ng-style="{ height: (iframeHeight - 80) + 'px' }">
+			<div ng-view></div>
+		</md-content>
+	</div>
+    
+	<!-- right side bar -->
+
+	<md-sidenav class="md-sidenav-right md-whiteframe-4dp" md-component-id="right" >
+
+		<md-toolbar md-scroll-shrink="" ng-if="true" >
+				<div class="md-toolbar-tools bg-black">
+						<h2 class="align-center" flex="" md-truncate="" >WildLife</h2>
+				</div>
+		</md-toolbar>
+
+		<div layout-padding="10"  class="m-t--15" ng-init="load_notifs();" style="height:{{get_window_height() - 160}}px">
+			
+			<md-tabs md-dynamic-height md-border-bottom md-selected="0" >
+					<md-tab label="Notifications">
+						<md-content class="md-padding" layout="column">
+								<p ng-if="notifs.length == 0 "> 
+									No notifications available...
+								</p>
+								<md-list flex>
+										<md-list-item class="md-3-line" ng-repeat="x in notifs">
+											<a ng-href="{{x.data.url}}" ng-click="notifs[$index].status = 1" class="md-list-item-text p-b-5 p-t-5" layout="column">
+													<h3 ng-class="{ 'col-green' : (x.status ==0) }">{{ x.name }}</h3>
+													<h4>Transaction ID : {{ x.data.transaction_id }}</h4>
+													<p>Message : {{x.data.message}}</p>
+											</a>
+											<md-divider>  </md-divider>
+										</md-list-item>
+								</md-list>
+						</md-content>
+					</md-tab>
+					<md-tab label="News">
+						<md-content layout="column" class="md-padding" >
+								<p > 
+									No news available...
+								</p>
+						</md-content>
+					</md-tab>
+			</md-tabs>
+
+		</div>
+
+	</md-sidenav>
+
+	</section>
+
+
+</div>

@@ -1,0 +1,21 @@
+
+<div ng-controller="single_controller" ng-init="set_page_title('Notification'); get_single_notif($event);">
+
+    <div ng-show=" is_loading " layout="row" layout-sm="column" layout-align="space-around">
+        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </div>
+
+    <div ng-hide=" is_loading " >
+        <strong class="col-grey">Title :</strong> {{application.name}}
+        <hr>
+        <strong class="col-grey">Transaction ID :</strong> {{application.data.transaction_id}}
+        <hr>
+        <strong class="col-grey">Date :</strong> {{application.date.split(' ')[0] | date}}
+        <hr>
+        <strong class="col-grey">Message :</strong> {{application.data.message}}
+        <hr>
+        <md-content ng-show="application.name == 'Application for Local Transport Permit' ">
+            <div ng-include="'app/templates/application/ltp.html'"></div>
+        </md-content>
+    </div>    
+</div>
