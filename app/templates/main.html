@@ -7,7 +7,8 @@
 	          <i class="fa fa-bars"></i>
 	        </md-button>
 	        <h2 flex="" md-truncate="" class="">Online Permitting - {{page_title}}</h2>
-	        <md-button ng-click="toggleRight()" ng-hide="isOpenRight()" class="md-icon-button" aria-label="More">
+	        <md-button ng-click="toggleRight()" ng-hide="isOpenRight()" class="md-icon-button" aria-label="Side options">
+							<md-tooltip md-direction="left">Click to open News and Notificatons</md-tooltip>
 	          <i class="fa fa-ellipsis-v font-24"></i>
 	        </md-button>
 	    </div>
@@ -23,7 +24,8 @@
 
 	    <div  layout="row" class="bg-black" layout-padding="20">
 	      <div flex="30">
-	        <img src="images/brain_logo.png" width="100%" alt="PCSD BRAIN">
+					<!-- <img src="images/brain_logo.png" width="100%" alt="PCSD BRAIN"> -->
+					<img ng-src="{{ (user.data.profile_picture == undefined)? 'images/user.png' : api_address + user.data.profile_picture }}" alt="user profile picture" width="100%" >
 	      </div>
 	      <div flex="70" layout="column">
 	        <div class="font-16">{{ user.data.first_name }} {{ user.data.middle_name }} {{ user.data.last_name }}</div>
@@ -76,7 +78,7 @@
 								</p>
 								<md-list flex>
 										<md-list-item class="md-3-line" ng-repeat="x in notifs">
-											<a ng-href="{{x.data.url}}" ng-click="notifs[$index].status = 1" class="md-list-item-text p-b-5 p-t-5" layout="column">
+											<a ng-href="{{x.data.url}}" ng-click="notifs[$index].status = 1;close_right_side()" class="md-list-item-text p-b-5 p-t-5" layout="column">
 													<h3 ng-class="{ 'col-green' : (x.status ==0) }">{{ x.name }}</h3>
 													<h4>Transaction ID : {{ x.data.transaction_id }}</h4>
 													<p>Message : {{x.data.message}}</p>

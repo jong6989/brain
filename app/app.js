@@ -1,6 +1,6 @@
 'use strict';
 
-const api_address = "/api/";
+const api_address = "/pcsds_api/";
 const config = {
                     headers : {
                         'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
@@ -97,7 +97,7 @@ var myAppModule = angular.module('brain_app', ['ngMaterial','ngAnimate', 'ngMess
     })
 
 
-.controller('AppCtrl', function ($scope,$window,$filter, $http,$timeout, $mdSidenav, $log, $utils, $mdToast,$localStorage , $sessionStorage, $mdDialog, Excel, NgTableParams,$route, $routeParams, $location) {
+.controller('AppCtrl', function ($scope,$window,$filter, $http,$timeout, $interval, $mdSidenav, $log, $utils, $mdToast,$localStorage , $sessionStorage, $mdDialog, Excel, NgTableParams,$route, $routeParams, $location) {
     $scope.$route = $route;
     $scope.$routeParams = $routeParams;
     $scope.$location = $location;
@@ -109,6 +109,7 @@ var myAppModule = angular.module('brain_app', ['ngMaterial','ngAnimate', 'ngMess
     $scope.menus = [];
     $scope.notifs = [];
     $scope.api_address = api_address;
+    $scope.qr_address = qr_address;
 
     $scope.toggleLeft = buildDelayedToggler('left');
     $scope.toggleRight = buildToggler('right');
@@ -378,7 +379,13 @@ var myAppModule = angular.module('brain_app', ['ngMaterial','ngAnimate', 'ngMess
         .then(function () {
           $log.debug("close LEFT is done");
         });
+    };
 
+    $scope.close_right_side = function () {
+      $mdSidenav('right').close()
+        .then(function () {
+          $log.debug("close Right is done");
+        });
     };
 
     $scope.run_initials = function(){
@@ -411,6 +418,9 @@ var myAppModule = angular.module('brain_app', ['ngMaterial','ngAnimate', 'ngMess
       if(n==1)return "Received, Reviewing";
       if(n==2)return "Rejected";
       if(n==3)return "Accepted, On Process";
+      if(n==4)return "Approved, On Process";
+      if(n==5)return "Recomended, On Process";
+      if(n==6)return "Acknowledged, Ready to Use";
     };
 
     $scope.alert = (title,text,event)=>{
@@ -426,9 +436,27 @@ var myAppModule = angular.module('brain_app', ['ngMaterial','ngAnimate', 'ngMess
 
     $scope.load_notifs = ()=>{
       $http.get(api_address + "?action=applicant/notification/load&user_id=" + $scope.user.id ).then(function(data){
-        return $scope.notifs = (data.data.status == 1) ? data.data.data : [];
+        var new_count = (data.data.status == 1) ? data.data.data.length : 0;
+        if($scope.notifs.length < new_count && $scope.notifs.length > 0){
+          $scope.toast("Transaction " + data.data.data[0].data.transaction_id + " : " + data.data.data[0].data.message);
+        }
+        $scope.notifs = (data.data.status == 1) ? data.data.data : [];
+        $timeout(()=>{ $scope.load_notifs();},3000);
       });
     }
+
+    $scope.generate_qr = (id,text)=>{
+      return new QRCode(document.getElementById(id), text);
+    };
+
+    $scope.save_qr = (id,fileName)=>{
+      let base64 = jQuery("#"+id).find("img").attr("src");
+      let link = document.createElement("a");
+      link.setAttribute("href", base64);
+      link.setAttribute("download", fileName);
+      link.click();
+    }
+    
 
   
     $timeout(()=> {

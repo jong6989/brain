@@ -35,6 +35,13 @@ myAppModule.controller('application_controller', function ($scope, $http, $timeo
         });
     });
 
+    $scope.permit_types = [
+        {name : "Wildlife Special Use Permit",code: "WSUP"},
+        {name : "Wildlife Farm Permit",code: "WFP"},
+        {name : "Wildlife Collectors Permit",code: "WCP"},
+        {name : "Grautitiuos Permit",code: "GP"}
+    ];
+
     $scope.initData = function(){
         $scope.new_application = "";
         $scope.new_application = {};
@@ -45,6 +52,8 @@ myAppModule.controller('application_controller', function ($scope, $http, $timeo
         $scope.new_application.temporary_id = "";
         $scope.new_application.status = "pending";
     };
+
+    $scope.set_permit_type = (x)=>{$scope.new_application.required_permit_type = x;};
 
     $scope.set_municipality = function(mun){
         $scope.mun = mun;

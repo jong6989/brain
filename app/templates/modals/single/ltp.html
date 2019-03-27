@@ -1,0 +1,19 @@
+<div style="visibility: hidden">
+    <div class="md-dialog-container" id="singleTransaction">
+        <md-dialog layout-padding layout="column" layout-align="center center">
+        <md-dialog-content>
+            <div class="md-dialog-content" ng-hide="application == {} "  layout="column" layout-align="center center">
+            <!-- LTP template -->
+            <div ng-show="application.name == 'Application for Local Transport Permit'">
+                <div ng-include="'app/templates/application/ltp.html'"></div>
+            </div>
+            </div>
+            <!-- loading -->
+            <div ng-show=" application == {} " layout="row" layout-sm="column" layout-align="space-around">
+            <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+            </div>
+        </md-dialog-content>
+
+        </md-dialog>
+    </div>
+</div>

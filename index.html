@@ -45,6 +45,9 @@
     <script>
         if (location.protocol != 'https:' && window.location.hostname == 'brain.pcsd.gov.ph'){
             location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+            var qr_address = "https://qr.pcsd.gov.ph/";
+        }else {
+            var qr_address = "http://localhost/pcsds_qr/"
         }
         // localStorage.getItem("brain_app_user");
     </script>
@@ -96,6 +99,9 @@
     <!-- Particles -->
     <script src="plugins/particlesjs/js/particles.min.js"></script>
     <script src="plugins/particlesjs/js/app.js"></script>
+    
+    <!-- Qr code plugin -->
+    <script src="js/qrcode.min.js"></script>
 
 </body>
 

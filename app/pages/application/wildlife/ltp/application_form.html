@@ -32,11 +32,30 @@
             Sir: <br>
             
                 <span class="p-l-20"></span>I would like to request for the inspection and certification of the following species/items and corresponding information intended for transport by virtue of 
-                 
-            <md-input-container class="md-block" >
-               <label>WSUP/WFP/GP and WCP No. :</label>
-               <input ng-model="new_application.required_permit" required>
-            </md-input-container>
+             <br>
+              <div layout="row">
+                <md-autocomplete flex class="md-block" 
+                      md-selected-item="required_permit_type"
+                      md-items="x in permit_types"
+                      md-item-text="x.name"
+                      md-min-length="0"
+                      md-selected-item-change="set_permit_type(required_permit_type.code)"
+                      placeholder="Permit Type:">
+                    <md-item-template>
+                      {{x.name}}
+                    </md-item-template>
+                </md-autocomplete>
+
+                <md-input-container flex class="md-block" >
+                  <label>Permit Number :</label>
+                  <input ng-model="new_application.required_permit" required>
+                </md-input-container>
+             </div>
+            
+
+            
+
+            
 
             to wit: 
             <br>
