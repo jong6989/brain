@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="brain_app" ng-controller="AppCtrl">
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <title>PCSD BRAIN SYSTEM</title>
-    <base href="/brain/">
+    <title>{{html_title}} </title>
     
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="57x57" href="images/icons/apple-icon-57x57.png">
@@ -33,6 +32,7 @@
 
     <!-- Font Awesome Css -->
     <link href="plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="plugins/animate-css/animate.min.css" rel="stylesheet">
 
     <!-- material colors -->
     <link href="css/theme.css" rel="stylesheet" />
@@ -45,9 +45,13 @@
     <script>
         if (location.protocol != 'https:' && window.location.hostname == 'brain.pcsd.gov.ph'){
             location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+            document.write('<base href="/">');
             var qr_address = "https://qr.pcsd.gov.ph/";
+            var api_address = "/api/";
         }else {
-            var qr_address = "http://localhost/pcsds_qr/"
+            document.write('<base href="/brain/">');
+            var qr_address = "http://localhost/pcsds_qr/";
+            var api_address = "/pcsds_api/";
         }
         // localStorage.getItem("brain_app_user");
     </script>
@@ -79,7 +83,7 @@
     
 </head>
 
-<body class="" ng-app="brain_app" ng-controller="AppCtrl" ng-cloak ng-init="run_initials()">
+<body ng-cloak ng-init="run_initials()">
     <div id="particles-js"></div>
     <div ng-include="current_view" style="position:relative"></div>
 

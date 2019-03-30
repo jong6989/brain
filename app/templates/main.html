@@ -6,10 +6,14 @@
 	        <md-button ng-click="toggleLeft()" hide-gt-md class="md-icon-button" aria-label="RightSide" >
 	          <i class="fa fa-bars"></i>
 	        </md-button>
-	        <h2 flex="" md-truncate="" class="">Online Permitting - {{page_title}}</h2>
-	        <md-button ng-click="toggleRight()" ng-hide="isOpenRight()" class="md-icon-button" aria-label="Side options">
-							<md-tooltip md-direction="left">Click to open News and Notificatons</md-tooltip>
-	          <i class="fa fa-ellipsis-v font-24"></i>
+			<h2 flex="" md-truncate="" class="">Online Permitting - {{page_title}}</h2>
+			<div ng-hide="true" ng-repeat="x in notifs | filter : { 'status' : 0 } as newNotifs"></div>
+	        <md-button ng-click="toggleRight()" ng-hide="isOpenRight()" class="md-icon-button animated infinite " ng-class="{'swing' : (newNotifs.length > 0) }" aria-label="Notifications and News">
+				<md-tooltip md-direction="left">Click to open News and Notificatons</md-tooltip>
+				<span class="font-10 col-red" style="position:absolute;left:15px;">
+					{{(newNotifs.length < 10)?'0':'';}}{{newNotifs.length}}
+				</span>
+				<i class="fa fa-bell font-24" ng-class="{'col-yellow' : (newNotifs.length > 0) }"></i>
 	        </md-button>
 	    </div>
 	</md-toolbar>
@@ -79,9 +83,9 @@
 								<md-list flex>
 										<md-list-item class="md-3-line" ng-repeat="x in notifs">
 											<a ng-href="{{x.data.url}}" ng-click="notifs[$index].status = 1;close_right_side()" class="md-list-item-text p-b-5 p-t-5" layout="column">
-													<h3 ng-class="{ 'col-green' : (x.status ==0) }">{{ x.name }}</h3>
-													<h4>Transaction ID : {{ x.data.transaction_id }}</h4>
-													<p>Message : {{x.data.message}}</p>
+												<h3 ng-class="{ 'col-green' : (x.status ==0) }">{{ x.name }}</h3>
+												<h4>Transaction ID : {{ x.data.transaction_id }}</h4>
+												<p>Message : {{x.data.message}}</p>
 											</a>
 											<md-divider>  </md-divider>
 										</md-list-item>

@@ -7,6 +7,7 @@ myAppModule.controller('application_controller', function ($scope, $http, $timeo
     $scope.shippers_name = [$scope.user.data.full_name];
     $scope.shippers_address = [$scope.user.data.current_address];
     $scope.uploading_file = false;
+    $scope.is_loading = false;
 
     //initialize data
     $http.get(api_address + "json/permitting/specimen_classification.json").then(function(data){
@@ -61,6 +62,7 @@ myAppModule.controller('application_controller', function ($scope, $http, $timeo
     };
 
     $scope.submit_application = function(application,key){
+        $scope.is_loading = true;
         var q = { 
             data : {
                 action : "applicant/transaction/create",
@@ -69,6 +71,7 @@ myAppModule.controller('application_controller', function ($scope, $http, $timeo
                 data : { application : application }
             },
             callBack : function(data){
+                $scope.is_loading = false;
                 if(data.data.status == 0){
                     $scope.toast(data.data.error + "  : " + data.data.hint);
                 }else {

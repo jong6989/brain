@@ -1,6 +1,4 @@
 'use strict';
-
-const api_address = "/pcsds_api/";
 const config = {
                     headers : {
                         'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
@@ -110,6 +108,7 @@ var myAppModule = angular.module('brain_app', ['ngMaterial','ngAnimate', 'ngMess
     $scope.notifs = [];
     $scope.api_address = api_address;
     $scope.qr_address = qr_address;
+    $scope.html_title = "PCSD BRAIN SYSTEM";
 
     $scope.toggleLeft = buildDelayedToggler('left');
     $scope.toggleRight = buildToggler('right');
@@ -259,36 +258,6 @@ var myAppModule = angular.module('brain_app', ['ngMaterial','ngAnimate', 'ngMess
       );
     };
 
-    $scope.update_selected_account = function(d,u){
-      var q = { 
-        data : { 
-          action : "account/update",
-          id : d.id,
-          name : d.name,
-          password : d.password,
-          data : d.data,
-          user_level : d.user_level,
-          user_id : $scope.user.id
-        },
-        callBack : function(data){
-          if(data.data.status == 0){
-            $scope.toast(data.data.error + "  : " + data.data.hint);
-          }else {
-            $scope.toast(data.data.data);
-            if(u){
-              $scope.user = $localStorage.csls_user = d;
-              $mdSidenav('right').close();
-            }else {
-              $scope.get_accounts();
-              $scope.is_single_account_selected = false;
-            }
-              
-          }
-        }
-      };
-      $utils.api(q);
-    };
-
     $scope.login_attempt = function(d){
       var q = { 
         data : { 
@@ -322,6 +291,7 @@ var myAppModule = angular.module('brain_app', ['ngMaterial','ngAnimate', 'ngMess
 
     $scope.set_page_title = function(t){
       $scope.page_title = t;
+      $scope.html_title = "BRAIN-" + t;
     };
 
     $scope.isActive = function (path) {
@@ -403,14 +373,13 @@ var myAppModule = angular.module('brain_app', ['ngMaterial','ngAnimate', 'ngMess
     $scope.iframeHeight = $scope.get_window_height();
     angular.element($window).bind('resize',function(){
       $scope.iframeHeight = $window.innerHeight;
-      // $scope.$digest();
     });
 
     $scope.getUserType = function(n){
-      if(n==99)return "Admin";
       if(n==0)return "Applicant";
       if(n==1)return "Partner";
       if(n==2)return "PCSD Staff";
+      return "unknown";
     };
 
     $scope.getStatusCode = function(n){
@@ -421,6 +390,7 @@ var myAppModule = angular.module('brain_app', ['ngMaterial','ngAnimate', 'ngMess
       if(n==4)return "Approved, On Process";
       if(n==5)return "Recomended, On Process";
       if(n==6)return "Acknowledged, Ready to Use";
+      if(n==7)return "USED";
     };
 
     $scope.alert = (title,text,event)=>{

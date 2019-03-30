@@ -52,21 +52,21 @@
         <strong><small>Date of Transport :</small> {{application.data.application.date_of_transport.split(' ')[0] | date}} </strong> <br>
         
         <!-- Received Stamp -->
-        <div ng-if="application.status > 0" ng-init="staff = application.data.received.staff">
+    <div ng-if="application.status > 0" ng-init="staff = application.data.received.staff">
             <hr class="p-t-10">
-            Received by : {{ staff.data.first_name }} {{ staff.data.middle_name }} {{ staff.data.last_name }} 
+            Received by : <strong>{{ staff.data.first_name }} {{ staff.data.middle_name }} {{ staff.data.last_name }}</strong> 
             <br>
-            Date Received : {{application.data.received.date.split(' ')[0]}}
+            Date Received : <strong>{{application.data.received.date.split(' ')[0]}}</strong>
         </div>
     
         <!-- Rejected Stamp -->
         <div ng-if="application.data.rejected != undefined " ng-init="staff = application.data.rejected.staff">
             <hr class="p-t-10">
-            Rejected by : {{ staff.data.first_name }} {{ staff.data.middle_name }} {{ staff.data.last_name }} 
+            Rejected by : <strong>{{ staff.data.first_name }} {{ staff.data.middle_name }} {{ staff.data.last_name }}</strong> 
             <br>
-            Remark : {{application.data.rejected.remark}}
+            Remark : <strong>{{application.data.rejected.remark}}</strong>
             <br>
-            Date Rejected : {{application.data.rejected.date.split(' ')[0]}}
+            Date Rejected : <strong>{{application.data.rejected.date.split(' ')[0]}}</strong>
         </div>
     
         <!-- Accepted Stamp -->
@@ -82,27 +82,27 @@
                 <md-card-content layout="row" layout-align="space-between">
                     <div flex layout="column">
                         <div flex>
-                            <strong>Personnel : </strong> {{application.data.certificate_of_inspection.personnel}}
+                            Personnel : <strong>{{application.data.certificate_of_inspection.personnel}}</strong> 
                         </div>
                         <div flex>
-                            <strong>Remark :</strong> {{application.data.certificate_of_inspection.remark}}
+                            Remark :<strong>{{application.data.certificate_of_inspection.remark}}</strong> 
                         </div>
                     </div>
                     <div flex layout="column">
                         <div flex>
-                            <strong>Location : </strong> {{application.data.certificate_of_inspection.location}}
+                            Location : <strong>{{application.data.certificate_of_inspection.location}}</strong> 
                         </div>
                         <div flex>
-                            <strong>Latitude : </strong> {{application.data.certificate_of_inspection.latitude}} 
+                            Latitude : <strong>{{application.data.certificate_of_inspection.latitude}}</strong>  
                         </div>
                         <div flex>
-                            <strong>Longitude : </strong> {{application.data.certificate_of_inspection.longitude}}
+                            Longitude : <strong>{{application.data.certificate_of_inspection.longitude}}</strong> 
                         </div>
                     </div>
                 </md-card-content>
             </md-card>
     
-            <md-card  class="m-b-20">
+            <md-card class="m-b-20">
                 <md-card-title>
                     <md-card-title-text>
                     <span class="md-headline">Payment Slip</span>
@@ -111,59 +111,59 @@
                 <md-card-content layout="row" layout-align="space-between">
                     <div flex layout="column">
                         <div flex>
-                            <strong>O.R Number : </strong> {{application.data.payment_slip.or_number}}
+                            O.R Number : <strong>{{application.data.payment_slip.or_number}}</strong> 
                         </div>
                         <div flex>
-                            <strong>Ammount :</strong> {{application.data.payment_slip.ammount}}
+                            Ammount :<strong>{{application.data.payment_slip.ammount}}</strong> 
                         </div>
                     </div>
                     <div flex layout="column">
                         <div flex>
-                            <strong>Date Issued : </strong> {{application.data.payment_slip.issued}}
+                            Date Issued : <strong>{{application.data.payment_slip.issued}}</strong> 
                         </div>
                         <div flex>
-                            <strong>Issued By : </strong> {{application.data.payment_slip.issued_by}}
+                            Issued By : <strong>{{application.data.payment_slip.issued_by}}</strong> 
                         </div>
                     </div>
                 </md-card-content>
             </md-card>
     
     
-            Accepted by : {{ staff.data.first_name }} {{ staff.data.middle_name }} {{ staff.data.last_name }} 
+            Accepted by : <strong>{{ staff.data.first_name }} {{ staff.data.middle_name }} {{ staff.data.last_name }}</strong> 
             <br>
-            Remark : {{application.data.accepted.remark}}
+            Remark : <strong>{{application.data.accepted.remark}}</strong>
             <br>
-            Date Accepted : {{application.data.accepted.date.split(' ')[0]}}
+            Date Accepted : <strong>{{application.data.accepted.date.split(' ')[0]}}</strong>
         </div>
     
         <!-- Approved Stamp -->
         <div ng-if="application.data.approved != undefined " ng-init="staff = application.data.approved.staff">
             <hr class="p-t-10">
-            Approved by : {{ staff.data.first_name }} {{ staff.data.middle_name }} {{ staff.data.last_name }} 
+            Approved by : <strong>{{ staff.data.first_name }} {{ staff.data.middle_name }} {{ staff.data.last_name }}</strong> 
             <br>
-            Remark : {{application.data.approved.remark}}
+            Remark : <strong>{{application.data.approved.remark}}</strong>
             <br>
-            Date Approved : {{application.data.accepted.date.split(' ')[0]}}
+            Date Approved : <strong>{{application.data.accepted.date.split(' ')[0]}}</strong>
         </div>
     
         <!-- Recommended Stamp -->
         <div ng-if="application.data.recommended != undefined " ng-init="staff = application.data.recommended.staff">
             <hr class="p-t-10">
-            Recommended by : {{ staff.data.first_name }} {{ staff.data.middle_name }} {{ staff.data.last_name }} 
+            Recommended by : <strong>{{ staff.data.first_name }} {{ staff.data.middle_name }} {{ staff.data.last_name }}</strong> 
             <br>
-            Remark : {{application.data.recommended.remark}}
+            Remark : <strong>{{application.data.recommended.remark}}</strong>
             <br>
-            Date recommended : {{application.data.accepted.date.split(' ')[0]}}
+            Date recommended : <strong>{{application.data.accepted.date.split(' ')[0]}}</strong>
         </div>
-    
+
         <!-- Acknowledged Stamp -->
         <div ng-if="application.data.acknowledged != undefined " ng-init="staff = application.data.acknowledged.staff">
             <hr class="p-t-10">
-            Acknowledged by : {{ staff.data.first_name }} {{ staff.data.middle_name }} {{ staff.data.last_name }} 
+            Acknowledged by : <strong>{{ staff.data.first_name }} {{ staff.data.middle_name }} {{ staff.data.last_name }}</strong> 
             <br>
-            Remark : {{application.data.acknowledged.remark}}
+            Remark : <strong>{{application.data.acknowledged.remark}}</strong>
             <br>
-            Date acknowledged : {{application.data.accepted.date.split(' ')[0]}}
+            Date acknowledged : <strong>{{application.data.accepted.date.split(' ')[0]}}</strong>
             
             <md-divider class="m-t-20 m-b-20"></md-divider>
             <div class="md-title">Digital Permit</div>
@@ -172,5 +172,29 @@
                 Save QR
             </md-button>
         </div>
+
+        <hr class="p-t-10">
+
+        <!-- used stamp -->
+        <md-card class="m-b-20" ng-if="application.data.used != undefined" ng-init="staff = application.data.used.staff">
+            <md-card-title>
+                <md-card-title-text>
+                <span class="md-headline">Permit Usage</span>
+                </md-card-title-text>
+            </md-card-title>
+            <md-card-content layout="row" layout-align="space-between">
+                <div flex layout="column">
+                    <div flex>
+                        Date Used : <strong> {{application.data.used.date.split(' ')[0]}} </strong> 
+                    </div>
+                    <div flex>
+                        Processed by : <strong>{{ staff.data.first_name }} {{ staff.data.middle_name }} {{ staff.data.last_name }}</strong> 
+                    </div>
+                    <div flex>
+                        Remark : <strong>{{application.data.used.remark}}</strong> 
+                    </div>
+                </div>
+            </md-card-content>
+        </md-card>
     
     </div>
