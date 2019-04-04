@@ -26,6 +26,10 @@ myAppModule.controller('application_controller', function ($scope, $http, $timeo
         $scope.municipalities = data.data;
     });
 
+    $http.get(api_address + "json/profile/nationalities.json").then(function(data){
+        $scope.nationalities = data.data; 
+    });
+
     $http.get(api_address + "json/profile/purpose_of_transport.json").then(function(data){
         $scope.other_purpose = data.data;
     });
@@ -53,6 +57,20 @@ myAppModule.controller('application_controller', function ($scope, $http, $timeo
         $scope.new_application.temporary_id = "";
         $scope.new_application.status = "pending";
     };
+
+    $scope.myDate = new Date();
+
+    $scope.minDate = new Date(
+        $scope.myDate.getFullYear() - 90,
+        $scope.myDate.getMonth(),
+        $scope.myDate.getDate()
+    );
+
+    $scope.maxDate = new Date(
+        $scope.myDate.getFullYear() - 18,
+        $scope.myDate.getMonth(),
+        $scope.myDate.getDate()
+    );
 
     $scope.set_permit_type = (x)=>{$scope.new_application.required_permit_type = x;};
 

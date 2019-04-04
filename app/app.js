@@ -18,7 +18,7 @@ if (hasGetUserMedia()) {
 }
 
 //initialize moment
-moment().format("YYYY-MM-DD h:mm:ss");
+
 
 var myAppModule = angular.module('brain_app', ['ngMaterial','ngAnimate', 'ngMessages','ngFileUpload','ngImgCrop','ngStorage','ngTable','ngRoute','camera'])
 
@@ -129,13 +129,19 @@ var myAppModule = angular.module('brain_app', ['ngMaterial','ngAnimate', 'ngMess
       return $filter('date')(d, "yyyy-MM-dd");
     };
 
+    $scope.to_int = (n)=>{
+      return parseInt(n);
+    }
+
     $scope.isOpenRight = function(){
       return $mdSidenav('right').isOpen();
     };
 
-    $scope.date_gap = function(a,b){
-      var a = moment(b);
-      return a.from(a);
+    $scope.date_gap = function(a,b,f){
+      let df = (f == undefined)? "YYYY-MM-DD h:mm:ss" :f;
+      moment().format(df);
+      let x = moment(b);
+      return x.from(a);
     };
 
     $scope.within_dates = function(date,from,to){
@@ -390,7 +396,7 @@ var myAppModule = angular.module('brain_app', ['ngMaterial','ngAnimate', 'ngMess
       if(n==4)return "Approved, On Process";
       if(n==5)return "Recomended, On Process";
       if(n==6)return "Acknowledged, Ready to Use";
-      if(n==7)return "USED";
+      if(n==7)return "Closed";
     };
 
     $scope.alert = (title,text,event)=>{

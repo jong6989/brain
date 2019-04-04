@@ -1,13 +1,18 @@
 'use strict';
 
 myAppModule.controller('applicant_dashboard_controller', function ($scope, $http, $timeout, $utils, $mdDialog, $interval, Upload, $localStorage) {
+    var my_applications = null;
     $scope.application_menus = [
-        { name : "Local Transport Permit", url : "#!/pages/application/wildlife/ltp" }
+        { name : "Local Transport Permit", url : "#!/pages/application/wildlife/ltp" },
+        { name : "Wildlife Special Use Permit (RFF)", url : "#!/pages/application/wildlife/wsup_rff" }
     ];
 
     $scope.load_my_applications = ()=>{
         $http.get(api_address + "?action=applicant/transaction/single&user_id=" + $scope.user.id ).then(function(data){
-            $localStorage.my_applications = data.data.data;
+            if(JSON.stringify(data.data.data) != my_applications){
+                my_applications = JSON.stringify(data.data.data);
+                $localStorage.my_applications = data.data.data;
+            }
             $timeout(()=>{ $scope.load_my_applications();},4000);
         });
     };
