@@ -9,6 +9,8 @@ myAppModule.controller('application_controller', function ($scope, $http, $timeo
     $scope.uploading_file = false;
     $scope.is_loading = false;
 
+    $scope.organization_list = ['Fisherman Association','mangingisda ng Palawan','Business Owners Palawan'];
+
     //initialize data
     $http.get(api_address + "json/permitting/specimen_classification.json").then(function(data){
         $scope.specimen_quality_list = data.data; 
@@ -80,6 +82,11 @@ myAppModule.controller('application_controller', function ($scope, $http, $timeo
     };
 
     $scope.submit_application = function(application,key){
+        let ap_name = application.applicant.split(' ');
+        if(ap_name.length < 3){
+            $scope.toast("Apllicant Name is invalid!, Check your middle name.");
+            return null;
+        }
         $scope.is_loading = true;
         var q = { 
             data : {

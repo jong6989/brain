@@ -50,7 +50,7 @@
 
             <div layout="column" ng-init="age_array = date_gap(date_now(),user.data.birth_day).split(' ')">
                 <div layout-gt-xs="row" layout-xs="column" class="m-t-20">
-                    <div class="m-r-20">2. <strong>I am</strong> </div>
+                    <div class="m-r-20">2. <strong class="col-blue-grey">I am</strong> </div>
                     <div ng-init="new_application.age = to_int(age_array[0]);">
                         <input ng-model="new_application.age" type="number" min="18">
                     </div>
@@ -71,7 +71,7 @@
 
             <div layout-gt-xs="row" layout-xs="column" ng-init="bday = new_application.birth_day = user.data.birth_day; new_application.place_of_birth = user.data.place_of_birth;">
                 <div flex>
-                    <strong>Date of Birth <cite class="font-10">(must be 18+)</cite></strong>
+                    <strong class="col-blue-grey">Date of Birth <cite class="font-10">(must be 18+)</cite></strong>
                     <md-datepicker ng-model="bday" ng-change="new_application.birth_day = to_date(bday)" md-placeholder="Birth Date"
                         md-min-date="minDate" md-max-date="maxDate" md-open-on-focus required></md-datepicker>
                 </div>
@@ -82,36 +82,89 @@
                     </md-input-container>
                 </div>
             </div>
-            
 
-            <div layout="row" layout-wrap>
-            
-                <div flex="50">Date of Birth: <u>{{wsup.birthday | date}}</u></div> 
-                <div flex="50">Place of Birth: <u>{{wsup.birth_place}}</u></div> 
-                
-                <div flex="50">Residence: <u>{{shippers_address}}</u></div> 
-                <div flex="50">Tel. No.: <u>{{wsup.contact}}</u></div>
-                
-                <div flex="50">Business Address: <u>{{wsup.businessaddress}}</u></div> 
-                <div flex="50">Tel. No.:  <u>{{wsup.contact}}</u></div> 
-                
+            <div layout-gt-xs="row" layout-xs="column" 
+                ng-init="new_application.residence_address = user.data.current_address;new_application.residence_tel_num = user.data.current_phone;">
+                <div flex>
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Residence Address</label>
+                        <input ng-model="new_application.residence_address" required>
+                    </md-input-container>
+                </div>
+                <div flex>
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Residence Tel. Number</label>
+                        <input ng-model="new_application.residence_tel_num" required>
+                    </md-input-container>
+                </div>
             </div>
 
-            <p>
-                3. I am {{civilStatus}} and the name of my spouse/wife 
-                <md-input-container class="md-block" flex-gt-sm>
-                    <label>Spouse/Wife Name</label>
-                    <input ng-model="wsup.spouse.name" required>
-                </md-input-container>
-            </p>
-            <p>
-                4. I am member/not a member of a sportsmen and/or game club and/or scientific or conservation society and/or live fish trader association or cooperative. State name of organizations, if member.
-                <md-input-container class="md-block" flex-gt-sm>
-                    <label>Organizations</label>
-                    <input ng-model="wsup.organizations" required>
-                </md-input-container>
+            <div layout-gt-xs="row" layout-xs="column">
+                <div flex>
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Business Address</label>
+                        <input ng-model="new_application.business_address" required>
+                    </md-input-container>
+                </div>
+                <div flex>
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Business Tel. Number</label>
+                        <input ng-model="new_application.business_tel_num" required>
+                    </md-input-container>
+                </div>
+            </div>
 
-            </p>
+            <div layout-gt-xs="row" layout-xs="column" class="m-t-20" ng-init="new_application.civil_status = user.data.civil_status">
+                <div class="m-r-20">3. <strong class="col-blue-grey">I am</strong> </div>
+                <md-input-container>
+                    <label>Civil Status</label>
+                    <md-select ng-model="new_application.civil_status">
+                        <md-option value="single"><em>Single</em></md-option>
+                        <md-option value="married"><em>Married</em></md-option>
+                        <md-option value="widowed"><em>Widowed</em></md-option>
+                        <md-option value="separated"><em>Separated</em></md-option>
+                    </md-select>
+                </md-input-container>
+                <div ng-if="new_application.civil_status == 'married'" class="m-l-20" flex-gt-xs>and the name of my spouse/wife </div>
+                <md-input-container ng-if="new_application.civil_status == 'married'" class="md-block" flex-gt-sm ng-init="new_application.spouse_name = user.data.spouse_name">
+                    <label>Spouse/Wife Name</label>
+                    <input ng-model="new_application.spouse_name" required>
+                </md-input-container>
+            </div>
+
+            <div layout-gt-xs="row" layout-xs="column" class="m-t-20" ng-init="new_application.org_member = 'false';">
+                <div class="m-r-20">4. <strong class="col-blue-grey">I am</strong> </div>
+                <md-radio-group ng-model="new_application.org_member" required>
+                    <md-radio-button value="true" class="md-primary">a member</md-radio-button>
+                    <md-radio-button value="false"> not a member </md-radio-button>
+                </md-radio-group>
+                <div flex class="m-l-10">of a sportsmen and/or game club and/or scientific or conservation society and/or live fish trader association or cooperative.</div>
+            </div>
+
+            <div ng-if="new_application.org_member == 'true'">
+                <h5 class="col-blue-grey" ng-init="new_application.organizations = ['']" flex>
+                    Organization: <md-button class="md-raised" ng-click="new_application.organizations.push('');">Add</md-button>
+                </h5>
+                <div ng-repeat="x in new_application.organizations"  flex layout-gt-sm="row" >
+                    <div flex-gt-sm="5">
+                        <i class="fa fa-trash pointer col-red" ng-click="new_application.organizations.splice(new_application.organizations.indexOf(x),1);"></i>
+                        {{$index + 1}}.
+                    </div>
+                    <md-autocomplete
+                        class="md-block" flex-gt-sm="30" required
+                          md-selected-item="new_application.organizations[$index]"
+                          md-items="x in organization_list"
+                          md-item-text="x"
+                          md-min-length="0"
+                          placeholder="Organization">
+                        <md-item-template>
+                          {{x}}
+                        </md-item-template>
+                    </md-autocomplete>
+                </div>
+            </div>
+            
+            <hr>
 
             <p>
                 5. I intend to collect the following economically important wildlife species for direct trade/commercial purposes:
@@ -119,9 +172,10 @@
 
             <br>
 
-            <h4 class="col-blue-grey" ng-init="new_application.specimen = []" flex>
+            <h5 class="col-blue-grey" ng-init="new_application.specimen = [{}]" flex>
                 Specimen: <md-button class="md-raised" ng-click="new_application.specimen.push({});">Add Specimen</md-button>
-            </h4>
+            </h5>
+            
             <div>
                 <div ng-repeat="x in new_application.specimen"  flex layout-gt-sm="row" >
                     <div flex-gt-sm="5">
@@ -176,92 +230,6 @@
                 </div>
             </div>
 
-            <p>The above species/ commodities/ items will be transported by:</p>
-
-            <h4 class="col-blue-grey" ng-init="new_application.shipper = {}">
-                Shipper:
-            </h4>
-            <div layout="row">
-
-                <md-autocomplete
-                    class="md-block" flex-gt-sm="30" required
-                      md-selected-item="new_application.shipper.name"
-                      md-items="x in shippers_name"
-                      md-item-text="x"
-                      md-min-length="0"
-                      placeholder="Shipper's Name">
-                    <md-item-template>
-                      {{x}}
-                    </md-item-template>
-                </md-autocomplete>
-
-                <md-autocomplete
-                    class="md-block" flex-gt-sm="30" required
-                      md-selected-item="new_application.shipper.address"
-                      md-items="y in shippers_address"
-                      md-item-text="y"
-                      md-min-length="0"
-                      placeholder="Shipper's Address">
-                    <md-item-template>
-                      {{y}}
-                    </md-item-template>
-                </md-autocomplete>
-                
-            </div>
-
-            <h4 class="col-blue-grey" ng-init="new_application.recipient = {}">
-                Recipient:
-            </h4>
-            <div layout="row">
-                <md-input-container class="md-block" flex-gt-sm>
-                   <label>Recipient's Name</label>
-                   <input ng-model="new_application.recipient.name" required>
-                </md-input-container>
-
-                <md-input-container class="md-block" flex-gt-sm>
-                   <label>Recipient's Address</label>
-                   <input ng-model="new_application.recipient.address" required>
-                </md-input-container>
-            </div>
-
-            <h4 class="col-blue-grey" >
-                On:
-            </h4>
-            <md-datepicker ng-model="date_of_transport" ng-change="new_application.date_of_transport = to_date(date_of_transport)" md-placeholder="Date of transport" md-open-on-focus></md-datepicker>
-
-            <h4 class="col-blue-grey" ng-init="new_application.via = {aircraft : true, vessel : false}">
-                Via:
-            </h4>
-            <div layout-gt-xs="row">
-                <div flex><md-checkbox aria-label="Aircraft" ng-model="new_application.via.aircraft"></md-checkbox> Aircraft </div>
-                <div flex><md-checkbox aria-label="Vessel" ng-model="new_application.via.vessel"></md-checkbox> Vessel </div>
-                <br>
-                
-            </div>
-
-            <div>
-                    <md-input-container class="md-block">
-                       <label>other mode of transportation:</label>
-                       <input ng-model="new_application.via.other">
-                    </md-input-container>
-                </div>
-
-            <h4 class="col-blue-grey" >
-                Located at the:
-            </h4>
-            <div layout="row">
-                <md-autocomplete
-                    class="md-block" flex-gt-sm="30" required
-                      md-selected-item="new_application.place_of_transport"
-                      md-items="x in places_of_transport"
-                      md-item-text="x"
-                      md-min-length="0"
-                      placeholder="Place of Transport">
-                    <md-item-template>
-                      {{x}}
-                    </md-item-template>
-                </md-autocomplete>
-            </div>
 
             <hr>
             
