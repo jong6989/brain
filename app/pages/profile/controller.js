@@ -2,6 +2,7 @@
 
 myAppModule.controller('profile_controller', function ($scope, $timeout, $utils, $mdDialog, $interval, Upload, $localStorage) {
     $scope.is_uploading = false;
+    $scope.is_loading = false;
     $scope.profile_uploading_rate = 0;
     $scope.picFile = null;
     $scope.is_using_camera = false;
@@ -79,6 +80,62 @@ myAppModule.controller('profile_controller', function ($scope, $timeout, $utils,
             }
         };
         $utils.api(q);
+    }
+
+    $scope.edit_profile = (n,d,p)=>{
+        $scope.is_loading = true;
+        var q = { 
+            data : {
+                action : "applicant/account/edit_profile/" + n,
+                data : d,
+                password : p,
+                id : $scope.user.id
+            },
+            callBack : function(data){
+                $scope.is_loading = false;
+                if(data.data.status == 1){
+                    $scope.user.data = data.data.data;
+                    $localStorage.brain_app_user.data = data.data.data;
+                    $scope.close_dialog();
+                    $scope.toast("Profile Updated!");
+                }else {
+                    $scope.toast(data.data.error);
+                }
+            }
+        };
+        $utils.api(q);
+    }
+
+    $scope.add_chainsaw = (d)=>{
+        $scope.is_loading = true;
+        var q = { 
+            data : {
+                action : "applicant/account/transaction/chainsaw/add",
+                data : d,
+                id : $scope.user.id
+            },
+            callBack : function(data){
+                $scope.is_loading = false;
+                if(data.data.status == 1){
+                    $scope.user.data = data.data.data;
+                    $localStorage.brain_app_user.data = data.data.data;
+                    $scope.close_dialog();
+                    $scope.toast("Chainsaw Added to Profile!");
+                }else {
+                    $scope.toast(data.data.error);
+                }
+            }
+        };
+        $utils.api(q);
+    }
+
+    $scope.clear_edit_pass = ()=>{
+        $scope.editProfilePassword = '';
+    }
+
+    $scope.open_chainsaw = (x,event)=>{
+        $scope.single_chainsaw = x;
+        $scope.showPrerenderedDialog(event,'single_chainsaw_item');
     }
 
 });

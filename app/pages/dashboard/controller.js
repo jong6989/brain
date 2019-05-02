@@ -4,7 +4,10 @@ myAppModule.controller('applicant_dashboard_controller', function ($scope, $http
     var my_applications = null;
     $scope.application_menus = [
         { name : "Local Transport Permit", url : "#!/pages/application/wildlife/ltp" },
-        { name : "Wildlife Special Use Permit (RFF)", url : "#!/pages/application/wildlife/wsup_rff" }
+        { name : "Wildlife Special Use Permit (RFF)", url : "#!/pages/application/wildlife/wsup_rff" },
+        { name : "Wildlife Special Use Permit (AO12)", url : "#!/pages/application/wildlife/wsup_ao12" },
+        { name : "Wildlife Collector's Permit", url : "#!/pages/application/wildlife/wcp" },
+        { name : "Wildlife Farm Permit", url : "#!/pages/application/wildlife/wfp" }
     ];
 
     $scope.load_my_applications = ()=>{

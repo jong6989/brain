@@ -113,6 +113,9 @@ var myAppModule = angular.module('brain_app', ['ngMaterial','ngAnimate', 'ngMess
     $scope.toggleLeft = buildDelayedToggler('left');
     $scope.toggleRight = buildToggler('right');
 
+    $http.get("json/templates.json").then(function(data){
+      $scope.app_templates = data.data.data; 
+    });
 
     $scope.ngTable = function(d,c){
       if(c == undefined) c=5;

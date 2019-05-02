@@ -45,6 +45,8 @@
     <script>
         if (location.protocol != 'https:' && window.location.hostname == 'brain.pcsd.gov.ph'){
             location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+        }
+        if (window.location.hostname == 'brain.pcsd.gov.ph'){
             document.write('<base href="/">');
             var qr_address = "https://qr.pcsd.gov.ph/";
             var api_address = "/api/";
@@ -53,7 +55,6 @@
             var qr_address = "http://localhost/pcsds_qr/";
             var api_address = "/pcsds_api/";
         }
-        // localStorage.getItem("brain_app_user");
     </script>
 
     <!-- Jquery Core Js -->

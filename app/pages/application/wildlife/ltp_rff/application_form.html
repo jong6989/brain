@@ -17,7 +17,7 @@
 
         <!-- title -->
         <div flex class="p-t-10 p-b-10">
-            <h3 class="col-blue-grey">ONLINE APPLICATION FOR INSPECTION OF WILDLIFE OR WILDLIFE PRODUCTS FOR LOCAL TRANSPORT PERMIT</h3>
+            <h3 class="col-blue-grey">ONLINE APPLICATION FOR LOCAL TRANSPORT PERMIT OF REEF-FISH-FOR-FOOD</h3>
         </div>
         
         <md-divider></md-divider>
@@ -34,28 +34,23 @@
                 <span class="p-l-20"></span>I would like to request for the inspection and certification of the following species/items and corresponding information intended for transport by virtue of 
              <br>
               <div layout="row">
-                <md-autocomplete flex class="md-block" 
-                      md-selected-item="required_permit_type"
-                      md-items="x in permit_types"
-                      md-item-text="x.name"
-                      md-min-length="0"
-                      md-selected-item-change="set_permit_type(required_permit_type.code)"
-                      placeholder="Permit Type:">
-                    <md-item-template>
+
+                <md-input-container>
+                  <label>Permit Type:</label>
+                  <md-select ng-model="new_application.required_permit_type" required>
+                    <md-option><em>None</em></md-option>
+                    <md-option ng-repeat="x in permit_types" ng-value="x.code" >
                       {{x.name}}
-                    </md-item-template>
-                </md-autocomplete>
+                    </md-option>
+                  </md-select>
+                </md-input-container>
 
                 <md-input-container flex class="md-block" >
                   <label>Permit Number :</label>
                   <input ng-model="new_application.required_permit" required>
                 </md-input-container>
              </div>
-            
-
-            
-
-            
+          
 
             to wit: 
             <br>
@@ -75,6 +70,8 @@
             <md-autocomplete
                 class="md-block" flex-gt-sm="30"
                   md-selected-item="new_application.purpose.other"
+                  md-search-text="napo"
+                  md-search-text-change="new_application.purpose.other = napo"
                   md-items="x in other_purpose"
                   md-item-text="x"
                   md-min-length="0"
@@ -83,7 +80,6 @@
                   {{x}}
                 </md-item-template>
             </md-autocomplete>
-
 
             <h4 class="col-blue-grey" ng-init="new_application.place_of_origin = {}">
                 Place of origin:
@@ -143,6 +139,8 @@
                     <md-autocomplete
                         class="md-block" flex-gt-sm="30" required
                           md-selected-item="new_application.specimen[new_application.specimen.indexOf(x)].species_name"
+                          md-search-text="nass"
+                          md-search-text-change="new_application.specimen[new_application.specimen.indexOf(x)].species_name = nass"
                           md-items="x in rff_specimen_list"
                           md-item-text="x"
                           md-min-length="0"
@@ -175,6 +173,8 @@
                     <md-autocomplete
                         class="md-block" flex-gt-sm="30" required
                           md-selected-item="new_application.specimen[new_application.specimen.indexOf(x)].species_des"
+                          md-search-text="nassd"
+                          md-search-text-change="new_application.specimen[new_application.specimen.indexOf(x)].species_des = nassd"
                           md-items="x in specimen_quality_list"
                           md-item-text="x"
                           md-min-length="0"
@@ -197,6 +197,8 @@
                 <md-autocomplete
                     class="md-block" flex-gt-sm="30" required
                       md-selected-item="new_application.shipper.name"
+                      md-search-text="nashippername"
+                      md-search-text-change="new_application.shipper.name = nashippername"
                       md-items="x in shippers_name"
                       md-item-text="x"
                       md-min-length="0"
@@ -209,6 +211,8 @@
                 <md-autocomplete
                     class="md-block" flex-gt-sm="30" required
                       md-selected-item="new_application.shipper.address"
+                      md-search-text="nashipperaddress"
+                      md-search-text-change="new_application.shipper.address = nashipperaddress"
                       md-items="y in shippers_address"
                       md-item-text="y"
                       md-min-length="0"
@@ -251,11 +255,11 @@
             </div>
 
             <div>
-                    <md-input-container class="md-block">
-                       <label>other mode of transportation:</label>
-                       <input ng-model="new_application.via.other">
-                    </md-input-container>
-                </div>
+                <md-input-container class="md-block">
+                    <label>other mode of transportation:</label>
+                    <input ng-model="new_application.via.other">
+                </md-input-container>
+            </div>
 
             <h4 class="col-blue-grey" >
                 Located at the:
@@ -264,6 +268,8 @@
                 <md-autocomplete
                     class="md-block" flex-gt-sm="30" required
                       md-selected-item="new_application.place_of_transport"
+                      md-search-text="nasplaceoT"
+                      md-search-text-change="new_application.place_of_transport = nasplaceoT"
                       md-items="x in places_of_transport"
                       md-item-text="x"
                       md-min-length="0"
@@ -328,7 +334,7 @@
         <div ng-show=" is_loading " layout="row" layout-sm="column" layout-align="space-around">
             <md-progress-circular md-mode="indeterminate"></md-progress-circular>
         </div>
-        <md-button ng-hide=" is_loading " ng-disabled="form_online_ltp_application.$invalid" ng-click="submit_application(new_application,'Application for Local Transport Permit')" 
+        <md-button ng-hide=" is_loading " ng-disabled="form_online_ltp_application.$invalid" ng-click="submit_application(new_application,'Application for Local Transport Permit RFF')" 
             class="md-primary md-raised md-block" >
             <strong class="font-24">Submit Application</strong>
         </md-button>

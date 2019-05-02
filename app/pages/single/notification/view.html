@@ -14,8 +14,9 @@
         <hr>
         <strong class="col-grey">Message :</strong> {{application.data.message}}
         <hr>
-        <md-content ng-show="application.name == 'Application for Local Transport Permit' ">
-            <div ng-include="'app/templates/application/ltp.html'"></div>
+
+        <md-content ng-repeat="x in app_templates" ng-show="application.name == x.name ">
+            <div ng-include="x.url"></div>
         </md-content>
     </div>    
 </div>

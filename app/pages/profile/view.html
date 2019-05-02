@@ -1,5 +1,7 @@
 <div ng-controller="profile_controller" ng-init="set_page_title('My Profile')">
+
     <div layout-gt-xs="row" layout-xs="column">
+        <!-- User Photo -->
         <div flex-gt-xs="35" layout-padding  ng-show="!is_using_camera"
             ngf-drop ng-model="picFile"
             ngf-allow-dir="true"
@@ -31,12 +33,6 @@
 
             <md-button ng-show="is_croping_image() && !upload_process()" ng-click="change_profile(croppedDataUrl, picFile.name)">Save</md-button> 
             <md-button ng-show="is_croping_image() && !upload_process()" ng-click="clear_cropping_image()" >Cancel</md-button>
-
-            <hr class="m-t-20 m-b-20">
-
-            <a href="#!/pages/dashboard">
-                <md-button class="md-block" >DASHBOARD</md-button>
-            </a>
             
 
         </div>
@@ -44,7 +40,7 @@
         <div layout="column" ng-if="is_using_camera">
 
             <div ng-hide="fromCamera == undefined" class="align-center"><img ng-src="{{croppedDataUrl}}" /></div>
-            <md-button ng-if="fromCamera != undefined" ng-click="change_profile(croppedDataUrl, 'camera_captured_image')" >
+            <md-button ng-if="fromCamera != undefined" ng-click="change_profile(croppedDataUrl, 'camera_captured_image.jpg')" >
                 Save Image
             </md-button>
             
@@ -72,46 +68,81 @@
             </md-button>
         </div>
 
+        <!-- Profile details -->
         <div flex-gt-xs class="p-l-20">
-            <div>
-                <hr>
-                <strong class="col-grey">User :</strong> {{user.user_name}}
-                <hr>
-                <strong class="col-grey">Full Name :</strong> {{user.data.first_name}} {{user.data.middle_name}} {{user.data.last_name}}
-                <hr>
+            <hr>
+                <strong class="col-grey" >User Name :</strong> {{user.user_name}}
+            <hr>
+                <div>
+                    <i class="fa fa-edit pointer col-blue" ng-click="showPrerenderedDialog($event,'fullname_modal');clear_edit_pass();">
+                        <md-tooltip md-direction="top">
+                            edit full name
+                        </md-tooltip>
+                    </i>
+                    <strong class="col-grey">Full Name :</strong> {{user.data.first_name}} {{user.data.middle_name}} {{user.data.last_name}} {{user.data.extension_name}}
+                </div>
+            <hr>
+                <i class="fa fa-edit pointer col-blue" ng-click="showPrerenderedDialog($event,'address_modal');clear_edit_pass();">
+                    <md-tooltip md-direction="top">
+                        edit address
+                    </md-tooltip>
+                </i>
                 <strong class="col-grey">Address :</strong> {{user.data.current_address}}
-                <hr>
+            <hr>
+                <i class="fa fa-edit pointer col-blue" ng-click="showPrerenderedDialog($event,'contact_modal');clear_edit_pass();">
+                    <md-tooltip md-direction="top">
+                        edit contact number
+                    </md-tooltip>
+                </i>
                 <strong class="col-grey">Phone :</strong> {{user.data.current_phone}}
-                <hr>
-                <strong class="col-grey">Birth Day :</strong> {{user.data.birth_day}}
-                <hr>
-                <strong class="col-grey">Tax Identification Number :</strong> {{user.data.tin_no}}
-                <hr>
-                <strong class="col-grey">Birth Place Address :</strong> {{user.data.place_of_birth}}
-                <hr>
-                <strong class="col-grey">Nationality :</strong> {{user.data.nationality}}
-                <hr>
-                <strong class="col-grey">Gender :</strong> {{user.data.gender}}
-                <hr>
-                <strong class="col-grey">Civil Status :</strong> {{user.data.civil_status}}
-                <hr ng-if="user.data.civil_status == 'married'">
-                <strong ng-if="user.data.civil_status == 'married'" class="col-grey">Spouse Name :</strong> {{user.data.spouse_name}}
-                <hr>
-                <strong class="col-grey">Father :</strong> {{user.data.father}}
-                <hr>
-                <strong class="col-grey">Mother :</strong> {{user.data.mother}}
-                <hr>
-                <strong class="col-grey">Government Issued Identification :</strong> 
-                    name : {{user.data.gov_id.name}}, 
-                    number : {{user.data.gov_id.number}}, 
-                    Date Issued : {{user.data.gov_id.date_issued}}, 
-                    Place Issued : {{user.data.gov_id.place_issued}}, 
-                    Valid Until : {{user.data.gov_id.valid_until}}
-                <hr>
-            </div>
+            <hr>
+                <md-card>
+                    <md-card-content>
+                        <i class="fa fa-edit pointer col-blue" ng-click="showPrerenderedDialog($event,'personal_modal');clear_edit_pass();">
+                            <md-tooltip md-direction="top">
+                                edit Personal Info
+                            </md-tooltip>
+                        </i>
+                        <strong class="col-grey">Personal Information </strong> <br>
+                        <small>Birth Day</small> : {{user.data.birth_day}} ({{date_from_now(user.data.birth_day).split(' ')[0]}} years old this year) <br>
+                        <small>Birth Place Address :</small> : {{user.data.place_of_birth}} <br>
+                            <small>Nationality</small> : {{user.data.nationality}} <br>
+                            <small>Gender</small> : {{user.data.gender}} <br>
+                            <small>Civil Status</small> : {{user.data.civil_status}} 
+                            <div ng-if="user.data.civil_status == 'married'">
+                                <small>Spouse Name</small> : {{user.data.spouse_name}} <br>
+                            </div>
+                            <small>Father</small> : {{user.data.father}} <br>
+                            <small>Mother</small> : {{user.data.mother}} <br>
+                    </md-card-content>
+                </md-card>
+        </div>
+    </div>
 
-            <div layout-gt-xs="row" layout-xs="column">
 
+    <div layout-gt-sm="row">
+
+        <!-- Edit Profile Data -->
+        <md-card>
+            <md-card-content>
+                <i class="fa fa-edit pointer col-blue" ng-click="showPrerenderedDialog($event,'gID_modal');clear_edit_pass();">
+                    <md-tooltip md-direction="top">
+                        edit Government ID
+                    </md-tooltip>
+                </i>
+                <strong class="col-grey">Government Issued Identification </strong> <br>
+                    <small>Tax Identification Number</small> : {{user.data.tin_no}} <br>
+                    <small>ID Name</small> : {{user.data.gov_id.name}} <br>
+                    <small>ID Number</small> : {{user.data.gov_id.number}} <br>
+                    <small>Date Issued</small> : {{user.data.gov_id.date_issued}} <br>
+                    <small>Place Issued</small> : {{user.data.gov_id.place_issued}} <br>
+                    <small>Valid Until</small> : {{user.data.gov_id.valid_until}} <br>
+            </md-card-content>
+        </md-card>
+
+        <!-- Uploads -->
+        <md-card>
+            <md-card-content>
                 <div flex 
                     ng-change="upload_files(file_drop)"
                     ngf-drop ng-model="file_drop"
@@ -124,21 +155,53 @@
                     </h5>
                     <ol ng-if="user.data.uploads != undefined">
                         <li ng-repeat="x in user.data.uploads" > {{x.name}} - 
-                          <i class="fa fa-trash col-red pointer" 
-                            ng-click="user.data.uploads.splice($index,1);update_profile('uploads',user.data.uploads)"></i>
+                        <i class="fa fa-trash col-red pointer" 
+                            ng-dblclick="user.data.uploads.splice($index,1);update_profile('uploads',user.data.uploads)">
+                                <md-tooltip md-direction="top">
+                                    double click to remove file
+                                </md-tooltip>
+                            </i>
                         </li>
                     </ol>
                     <md-progress-linear md-mode="indeterminate" ng-show="uploading_file"></md-progress-linear>
-                    <md-button class="" ngf-select="upload_files($files)">
+                    <md-button class="md-raised" ngf-select="upload_files($files)">
                         Select Upload
                     </md-button>
                 </div>
-                
-            </div>
-        </div>
+            </md-card-content>
+        </md-card>
+
+        <!-- Chainsaw -->
+        <md-card>
+            <md-card-content>
+                <i class="fa fa-plus pointer col-blue" ng-click="showPrerenderedDialog($event,'add_chainsaw_modal')">
+                    <md-tooltip md-direction="top">
+                        Add Chainsaw
+                    </md-tooltip>
+                </i>
+                <strong class="col-grey">My Chainsaw List</strong> <br>
+                <div>
+                    <ol>
+                        <li ng-repeat="x in user.data.chainsaws" class="pointer" ng-click="open_chainsaw(x,$event)">
+                            {{x.brand}},{{x.model}}, {{x.engine}}
+                        </li>
+                    </ol>
+                </div>
+            </md-card-content>
+        </md-card>
+
     </div>
-
     
+    <!-- Edit Modals -->
+    <div style="visibility: hidden" ng-include="'app/templates/modals/edit_profile/fullname.html'" ></div>
+    <div style="visibility: hidden" ng-include="'app/templates/modals/edit_profile/address.html'" ></div>
+    <div style="visibility: hidden" ng-include="'app/templates/modals/edit_profile/contact.html'" ></div>
+    <div style="visibility: hidden" ng-include="'app/templates/modals/edit_profile/gID.html'" ></div>
+    <div style="visibility: hidden" ng-include="'app/templates/modals/edit_profile/personal.html'" ></div>
 
-    
+    <!-- Add Modals -->
+    <div style="visibility: hidden" ng-include="'app/templates/modals/chainsaw/add.html'" ></div>
+
+    <!-- View Modals -->
+    <div style="visibility: hidden" ng-include="'app/templates/modals/chainsaw/item.html'" ></div>
 </div>

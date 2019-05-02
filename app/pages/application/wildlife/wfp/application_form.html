@@ -15,9 +15,21 @@
 
         <md-divider></md-divider>
 
-        <!-- title -->
         <div flex class="p-t-10 p-b-10">
-            <h3 class="col-blue-grey">ONLINE APPLICATION FOR WILDLIFE SPECIAL USE PERMIT (RFF)</h3>
+            <h3 class="col-blue-grey m-t-20 m-b-20">ONLINE APPLICATION FOR WILDLIFE FARM PERMIT</h3>
+            <div layout-gt-sm="row" ng-init="new_application.application_type = 'new';">
+                <md-radio-group ng-model="new_application.application_type">
+                    <md-radio-button value="new" class="md-primary">New</md-radio-button>
+                    <md-radio-button value="renew"> Renew </md-radio-button>
+                </md-radio-group>
+            </div>
+            <hr>
+            <div layout-gt-sm="row" ng-init="new_application.farm_scale = 'large';">
+                <md-radio-group ng-model="new_application.farm_scale">
+                    <md-radio-button value="large" class="md-primary"> MEDIUM-LARGE SCALE FARMING </md-radio-button>
+                    <md-radio-button value="small"> SMALL SCALE FARMING </md-radio-button>
+                </md-radio-group>
+            </div>
         </div>
         
         <md-divider></md-divider>
@@ -186,9 +198,13 @@
                         </md-input-container>
                     </div>
                 </div>
+
+                <br>
+                    <div>3.	My occupation is <input type="text" class="m-l-5 m-r-5" placeholder="" ng-model="new_application.occupation">. </div>
+                <br>
     
                 <div layout-gt-xs="row" layout-xs="column" class="m-t-20" ng-init="new_application.civil_status = user.data.civil_status">
-                    <div class="m-r-20">3. <strong class="col-blue-grey">I am</strong> </div>
+                    <div class="m-r-20">4. <strong class="col-blue-grey">I am</strong> </div>
                     <md-input-container>
                         <label>Civil Status</label>
                         <md-select ng-model="new_application.civil_status">
@@ -206,7 +222,7 @@
                 </div>
     
                 <div layout-gt-xs="row" layout-xs="column" class="m-t-20" ng-init="new_application.org_member = 'false';">
-                    <div class="m-r-20">4. <strong class="col-blue-grey">I am</strong> </div>
+                    <div class="m-r-20">5. <strong class="col-blue-grey">I am</strong> </div>
                     <md-radio-group ng-model="new_application.org_member" required>
                         <md-radio-button value="true" class="md-primary">a member</md-radio-button>
                         <md-radio-button value="false"> not a member </md-radio-button>
@@ -255,7 +271,7 @@
                 </div>
                 
                 <p>
-                    5. I intend to collect the following economically important wildlife species for direct trade/commercial purposes:
+                    6. I intend to breed the following wildlife:
                 </p>
     
                 <br>
@@ -291,41 +307,37 @@
                         </md-input-container>
     
                         <md-input-container class="md-block" flex-gt-sm=>
-                           <label>Source Area</label>
+                           <label>Source Area (Sitio, Brgy., Municipality) </label>
                            <input ng-model="new_application.species[new_application.species.indexOf(x)].source_area" required>
                         </md-input-container>
     
                     </div>
                 </div>
 
-
-                <strong class="col-grey">and will trade the species to </strong>
-                <div layout="row">
-                    <md-input-container class="md-block" flex-gt-sm>
-                        <label>market destinations/outlet, including transshipment points</label>
-                        <input ng-model="new_application.market_outlet" required>
-                    </md-input-container>
-                </div>
-
-                <div layout="row">
-                    <strong class="col-blue-grey m-r-10">Via:</strong>
-                    <md-autocomplete
-                        class="md-block m-r-10" flex-gt-sm required
-                            md-selected-item="new_application.via"
-                            md-search-text="via"
-                            md-search-text-change="new_application.via = via"
-                            md-items="x in ['Aircraft','Vessel']"
-                            md-item-text="x"
-                            md-min-length="0"
-                            placeholder="Mode of Transport">
-                        <md-item-template>
-                            {{x}}
-                        </md-item-template>
-                    </md-autocomplete>
+                <p class="m-t-20">
+                    7.	Wildlife species to be collected under this permit shall be taken by means of:
+                </p>
+    
+                <h5 class="col-blue-grey" ng-init="new_application.techniques = [{}]" flex>
+                    Technique/s to be used: <md-button class="md-raised" ng-click="new_application.techniques.push({});">Add Technique</md-button>
+                </h5>
+                
+                <div>
+                    <div ng-repeat="x in new_application.techniques"  flex layout-gt-sm="row" >
+                        <div flex-gt-sm="5">
+                            <i class="fa fa-trash pointer col-red" ng-click="new_application.techniques.splice(new_application.techniques.indexOf(x),1);"></i>
+                            {{$index + 1}}.
+                        </div>
+    
+                        <md-input-container class="md-block m-r-10" flex-gt-sm>
+                            <label>(Indicate collection technique/s to be used)</label>
+                            <input ng-model="new_application.techniques[new_application.techniques.indexOf(x)].name" required>
+                        </md-input-container>
+                    </div>
                 </div>
 
                 <p class="m-t-20">
-                    6.	Wildlife species to be collected under this permit shall be taken by the following authorized collectors with Wildlife Collector’s Permit issued by the PCSDS:
+                    8.	The names of my authorized trappers/collectors are :
                 </p>
     
                 <h5 class="col-blue-grey" ng-init="new_application.collectors = [{}]" flex>
@@ -352,46 +364,11 @@
                     </div>
                 </div>
 
+                <p>9. I understand that the information stated in this application are all true and correct and any omission of facts therein shall cause the disapproval of this application and/or cancellation of the permit that may be issued to me.</p>
                 <br>
-                <div>7.	The estimated cost of my project is PhP <input type="text" class="m-l-5 m-r-5" placeholder="ammount" ng-model="new_application.project_cost">. </div>
+                <p>10. I understand that the filing of this application conveys no right to take, collect or possess any wildlife until a permit is issued to me by the PCSD.</p>
                 <br>
-
-                <p>8. The area of my project operation is located at the following:</p>
-                <div class="m-t-20" ng-init="new_application.project_location = {}">
-                    <md-input-container class="md-block m-r-10" flex-gt-sm=>
-                        <label>Sitio</label>
-                        <input ng-model="new_application.project_location.sitio" required>
-                    </md-input-container>
-
-                    <md-input-container class="md-block m-r-10" flex-gt-sm=>
-                        <label>Barangay</label>
-                        <input ng-model="new_application.project_location.barangay" required>
-                    </md-input-container>
-
-                    <md-input-container class="md-block" flex-gt-sm=>
-                        <label>Municipality</label>
-                        <input ng-model="new_application.project_location.municipality" required>
-                    </md-input-container>
-
-                    <md-input-container class="md-block" flex-gt-sm=>
-                        <label>Latitude</label>
-                        <input ng-model="new_application.project_location.latitude" required>
-                    </md-input-container>
-
-                    <md-input-container class="md-block" flex-gt-sm=>
-                        <label>Longitude</label>
-                        <input ng-model="new_application.project_location.longitude" required>
-                    </md-input-container>
-                </div>
-
-                <br>
-                <div>9. I plan to use trading facilities such as   <input type="text" class="m-l-5 m-r-5" placeholder="aquarium, holding tanks, etc" ng-model="new_application.trading_facilities">. </div>
-                <br>
-                <p>10. I understand that the information stated in this application are all true and correct and any omission of facts therein shall cause the disapproval of this application and/or cancellation of the permit that may be issued to me.</p>
-                <br>
-                <p>11. I understand that the filing of this application conveys no right to take, collect or possess any wildlife until a permit is issued to me by the PCSD.</p>
-                <br>
-                <p>12. The application fee in the amount of <input type="text" class="m-l-5 m-r-5" ng-model="new_application.application_fee"> made payable to the PCSDS with Official Receipt No.
+                <p>11. The application fee in the amount of <input type="text" class="m-l-5 m-r-5" ng-model="new_application.application_fee"> made payable to the PCSDS with Official Receipt No.
                     <input type="text" class="m-l-5 m-r-5" ng-model="new_application.or_no">  is herewith enclosed. Non- approval or non-issuance of the permit does not entitle me to a refund of the fee.</p>
                 
                 <hr class="m-t-40">
@@ -460,7 +437,7 @@
             <div ng-show=" is_loading " layout="row" layout-sm="column" layout-align="space-around">
                 <md-progress-circular md-mode="indeterminate"></md-progress-circular>
             </div>
-            <md-button ng-hide=" is_loading " ng-disabled="form_online_application.$invalid" ng-click="submit_application(new_application,'Application for Wildlife Special Use Permit RFF')" 
+            <md-button ng-hide=" is_loading " ng-disabled="form_online_application.$invalid" ng-click="submit_application(new_application,'Application for Wildlife Farm Permit')" 
                 class="md-primary md-raised md-block" >
                 <strong class="font-24">Submit Application</strong>
             </md-button>

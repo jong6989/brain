@@ -8,16 +8,62 @@ myAppModule.controller('application_controller', function ($scope, $http, $timeo
     $scope.shippers_address = [$scope.user.data.current_address];
     $scope.uploading_file = false;
     $scope.is_loading = false;
+    $scope.is_uploading = false;
+    $scope.photo_uploading_rate = 0;
+    $scope.picFile = null;
+    $scope.is_using_camera = false;
 
-    $scope.organization_list = ['Fisherman Association','mangingisda ng Palawan','Business Owners Palawan'];
+    $scope.clear_cropping_image = ()=>{
+        $scope.picFile = null;
+    }
+
+    $scope.toggle_using_camera = ()=>{
+        $scope.is_using_camera = !$scope.is_using_camera;
+    }
+
+    $scope.is_croping_image = ()=>{
+        return ($scope.picFile == null) ? false : true;
+    };
+
+    $scope.upload_process = ()=>{
+        return Upload.isUploadInProgress();
+    }
+
+    $scope.upload_photo = function(dataUrl, name){
+        $scope.is_using_camera = false;
+        Upload.upload({
+            url: api_address,
+            data: {
+                action:"applicant/account/upload_photo",
+                user_id : $scope.user.id,
+                file: Upload.dataUrltoBlob(dataUrl, name)
+            }
+        }).then(function (data) {
+            if(data.data.status == 1){
+                $scope.new_application.applicant_photo = data.data.data;
+            }
+        }, null, function (evt) {
+            $scope.photo_uploading_rate = parseInt(100.0 * evt.loaded / evt.total);
+        });
+    };
+
+    // $scope.organization_list = ['Fisherman Association','mangingisda ng Palawan','Business Owners Palawan'];
 
     //initialize data
     $http.get(api_address + "json/permitting/specimen_classification.json").then(function(data){
-        $scope.specimen_quality_list = data.data; 
+        $scope.specimen_quality_list = data.data.data; 
+    });
+
+    $http.get(api_address + "json/permitting/organizations.json").then(function(data){
+        $scope.organization_list = data.data.data; 
     });
 
     $http.get(api_address + "json/permitting/rff_specimen.json").then(function(data){
-        $scope.rff_specimen_list = data.data; 
+        $scope.rff_specimen_list = data.data.data; 
+    });
+
+    $http.get(api_address + "json/permitting/permit_types.json").then(function(data){
+        $scope.permit_types = data.data.data;
     });
 
     $scope.change_current_index = (n)=>{
@@ -25,29 +71,23 @@ myAppModule.controller('application_controller', function ($scope, $http, $timeo
     };
 
     $http.get(api_address + "json/profile/municipality.json").then(function(data){
-        $scope.municipalities = data.data;
+        $scope.municipalities = data.data.data;
     });
 
     $http.get(api_address + "json/profile/nationalities.json").then(function(data){
-        $scope.nationalities = data.data; 
+        $scope.nationalities = data.data.data; 
     });
 
     $http.get(api_address + "json/profile/purpose_of_transport.json").then(function(data){
-        $scope.other_purpose = data.data;
+        $scope.other_purpose = data.data.data;
     });
 
     $http.get(api_address + "json/profile/place_of_transport.json").then(function(data){
-        angular.forEach(data.data, function(value, key) {
+        angular.forEach(data.data.data, function(value, key) {
             $scope.places_of_transport.push(value.name);
         });
     });
 
-    $scope.permit_types = [
-        {name : "Wildlife Special Use Permit",code: "WSUP"},
-        {name : "Wildlife Farm Permit",code: "WFP"},
-        {name : "Wildlife Collectors Permit",code: "WCP"},
-        {name : "Grautitiuos Permit",code: "GP"}
-    ];
 
     $scope.initData = function(){
         $scope.new_application = "";
@@ -82,6 +122,12 @@ myAppModule.controller('application_controller', function ($scope, $http, $timeo
     };
 
     $scope.submit_application = function(application,key){
+        //required a 2 x 2 Photo
+        if($scope.new_application.applicant_photo == 'images/user.png'){
+            $scope.toast("Please upload a photo!");
+            return null;
+        }
+        //name must be complete
         let ap_name = application.applicant.split(' ');
         if(ap_name.length < 3){
             $scope.toast("Apllicant Name is invalid!, Check your middle name.");
