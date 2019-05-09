@@ -8,11 +8,11 @@ myAppModule.controller('login_controller', function ($scope, $timeout, $utils, $
     $scope.gov_ids = ["Passport","Drivers License","PRC","GSIS","SSS","Postal ID","Voter's ID","School ID"];
 
     $http.get(api_address + "json/profile/nationalities.json").then(function(data){
-        $scope.nationalities = data.data; 
+        $scope.nationalities = data.data.data; 
     });
     
     $http.get(api_address + "json/profile/municipality.json").then(function(data){
-        $scope.municipalities = data.data; 
+        $scope.municipalities = data.data.data; 
     });
     
     $scope.register = function(d){

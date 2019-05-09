@@ -138,4 +138,11 @@ myAppModule.controller('profile_controller', function ($scope, $timeout, $utils,
         $scope.showPrerenderedDialog(event,'single_chainsaw_item');
     }
 
+    $scope.remove_chainsaw = (x)=>{
+        let index = $scope.user.data.chainsaws.indexOf(x);
+        $scope.user.data.chainsaws.splice(index,1);
+        $scope.update_profile("chainsaws",$scope.user.data.chainsaws);
+        $scope.close_dialog();
+    }
+
 });

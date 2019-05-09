@@ -18,6 +18,12 @@
         <!-- title -->
         <div flex class="p-t-10 p-b-10">
             <h3 class="col-blue-grey m-t-20 m-b-20">ONLINE APPLICATION FOR CHAINSAW REGISTRATION</h3>
+            <div layout-gt-sm="row" ng-init="new_application.application_type = 'new';">
+                <md-radio-group ng-model="new_application.application_type">
+                    <md-radio-button value="new" class="md-primary">New</md-radio-button>
+                    <md-radio-button value="renew"> Renew </md-radio-button>
+                </md-radio-group>
+            </div>
         </div>
         
         <md-divider></md-divider>
@@ -34,8 +40,8 @@
                 <br>
                 <p ng-init="new_application.applicant = user.data.full_name; new_application.applicant_address = user.data.current_address; new_application.nature = '';">
                     <span class="m-r-20"></span>
-                    I/We <input type="text" placeholder="applicant name" ng-model="new_application.applicant">, resident of 
-                    <input type="text" placeholder="applicant address" ng-model="new_application.applicant_address">
+                    I/We <input type="text" placeholder="applicant name" ng-model="new_application.applicant" required>, resident of 
+                    <input type="text" placeholder="applicant address" ng-model="new_application.applicant_address" required>
                     , applies for a chainsaw Certificate of Registration. I am applying as
                     <select ng-model="new_application.nature" required>
                         <option value="">--click--</option>
@@ -57,7 +63,7 @@
                 <div layout-gt-sm="row" layout-align="center center">
                     <md-input-container>
                         <label>Chainsaw</label>
-                        <md-select ng-model="new_application.chainsaw">
+                        <md-select ng-model="new_application.chainsaw" required>
                             <md-option ng-value="undefined"><em>No Chainsaw</em></md-option>
                             <md-option ng-repeat="x in user.data.chainsaws" ng-value="x" >
                             {{x.brand}},{{x.model}}, {{x.engine}}
@@ -85,8 +91,6 @@
                                 Other Distinguishing Marks, If any: <strong>{{new_application.chainsaw.marks}}</strong><br>
                                 Name of Dealer: <strong>{{new_application.chainsaw.dealer_name}}</strong><br>
                                 Address: <strong>{{new_application.chainsaw.dealer_address}}</strong><br>
-                                Permit No: <strong>{{new_application.chainsaw.permit_no}}</strong><br>
-                                Place of Registration: <strong>{{new_application.chainsaw.place_of_registration}}</strong><br>
                             </div>
                         </md-card-content>
                     </md-card>

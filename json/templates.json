@@ -4,6 +4,7 @@
         { "name" : "Application for Wildlife Special Use Permit RFF" , "url" : "app/templates/application/wsup_rff.html" },
         { "name" : "Application for Wildlife Special Use Permit AO12" , "url" : "app/templates/application/wsup_ao12.html"  },
         { "name" : "Application for Wildlife Collectors Permit" , "url" : "app/templates/application/wcp.html"  },
-        { "name" : "Application for Wildlife Farm Permit" , "url" : "app/templates/application/wfp.html"  }
+        { "name" : "Application for Wildlife Farm Permit" , "url" : "app/templates/application/wfp.html"  },
+        { "name" : "Application for Chainsaw Registration" , "url" : "app/templates/application/cr.html"  }
     ]
 }

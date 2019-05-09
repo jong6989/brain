@@ -7,7 +7,7 @@
                 </md-card-title-text>
             </md-card-title>
 
-            <div style="max-height: 300px; overflow: scroll;" >
+            <div style="max-height: 210px; overflow: scroll;" >
                 <md-card-content >
                     <md-list>
                         <md-list-item ng-repeat="x in $localStorage.my_applications | limitTo : 10" ng-click="set_application(x,$event)" >
@@ -49,12 +49,13 @@
         </md-card>
 
         <md-card>
+            <md-card-title>
+                <h3 class="md-title">Wildlife</h3>
+            </md-card-title>
             <md-card-content>
                 <a ng-href="#!/pages/application/wildlife/wsup_rff">
                     <md-tooltip md-direction="top">a permit authorizing qualified persons to directly collect reef-fish-for-food or buy the same from holders of wildlife collector’s permit for direct trade or other commercial purposes</md-tooltip>
                     WILDLIFE SPECIAL USE PERMIT (RFF)
-                    <br>
-                    <small>Admin Order 5 series of 2014</small>
                 </a>
 
                 <hr>
@@ -62,18 +63,13 @@
                 <a ng-href="#!/pages/application/wildlife/wsup_ao12">
                     <md-tooltip md-direction="top">a permit authorizing qualified persons to collect non-threatened economically important species for direct trade or other commercial purposes</md-tooltip>
                     WILDLIFE SPECIAL USE PERMIT (AO12)
-                    <br>
-                    <small>Admin Order 12 series of 2011</small>
                 </a>
 
                 <hr>
 
-                <a ng-href="#!/pages/application/wildlife/ltp">
+                <a ng-href="#!/pages/application/wildlife/ltp_rff">
                     <md-tooltip md-direction="top">a permit issued by the PCSD to a holder of wildlife collector’s permit, wildlife farm permit or wildlife special use permit authorizing him/her to bring reef-fish-for-food from Palawan to other provincesin the Philippines</md-tooltip>
                     LOCAL TRANSPORT PERMIT for RFF
-                    <br>
-                    <small>Admin Order 12 series of 2011</small><br>
-                    <small>Admin Order 5 series of 2014</small>
                 </a>
 
                 <hr>
@@ -81,8 +77,6 @@
                 <a ng-href="#!/pages/application/wildlife/wcp">
                     <md-tooltip md-direction="top">a permit to take or collect from the wild certain species and quantities of wildlife for commercial purposes</md-tooltip>
                     WILDLIFE COLLECTOR'S PERMIT
-                    <br>
-                    <small>Admin Order 12 series of 2011</small><br>
                 </a>
 
                 <hr>
@@ -90,8 +84,6 @@
                 <a ng-href="#!/pages/application/wildlife/wfp">
                     <md-tooltip md-direction="top">means a permit to develop, operate and maintain a wildlife breeding farm for conservation, trade and/or scientific purposes</md-tooltip>
                     WILDLIFE FARM PERMIT
-                    <br>
-                    <small>Admin Order 12 series of 2011</small><br>
                 </a>
 
             </md-card-content>
@@ -99,7 +91,7 @@
 
     </div>
 
-    <div >
+    <div layout-gt-sm="row">
         <md-card>
             <md-card-title>
                 <h3 class="md-title">Chainsaw</h3>

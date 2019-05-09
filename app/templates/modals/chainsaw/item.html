@@ -12,15 +12,14 @@
                 Other Distinguishing Marks, If any: <strong>{{single_chainsaw.marks}}</strong><br>
                 Name of Dealer: <strong>{{single_chainsaw.dealer_name}}</strong><br>
                 Address: <strong>{{single_chainsaw.dealer_address}}</strong><br>
-                Permit No: <strong>{{single_chainsaw.permit_no}}</strong><br>
-                Place of Registration: <strong>{{single_chainsaw.place_of_registration}}</strong><br>
             </div>
             <hr>
             <div layout="row" layout-align="end">
                 <md-button class="md-raised" ng-click="close_dialog()">
                     Close
                 </md-button>
-                <md-button class="md-raised md-warn" ng-click="null">
+                <md-button class="md-raised md-warn" ng-dblclick="remove_chainsaw(single_chainsaw)">
+                    <md-tooltip md-direction="top"> Double Click to Remove Chainsaw </md-tooltip>
                     Remove
                 </md-button>
             </div>

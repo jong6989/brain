@@ -32,5 +32,4 @@ myAppModule.controller('applicant_dashboard_controller', function ($scope, $http
         $scope.showPrerenderedDialog(ev,'singleTransaction');
     }
 
-
 });
