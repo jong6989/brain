@@ -1,4 +1,4 @@
-<div flex layout="column" md-whiteframe="3" ng-init=" initData() " layout-padding="50" layout-margin class="md-card p-l-20 p-r-20">
+<div flex layout="column" md-whiteframe="3" ng-init=" initData('WSUP_RFF') " layout-padding="50" layout-margin class="md-card p-l-20 p-r-20">
     <form name="form_online_application" >
         <div flex layout-gt-xs="row" layout-xs="column">
             <div flex flex-gt-xs="15" layout-align="center center">
@@ -375,12 +375,12 @@
 
                     <md-input-container class="md-block" flex-gt-sm=>
                         <label>Latitude</label>
-                        <input ng-model="new_application.project_location.latitude" required>
+                        <input ng-model="new_application.project_location.latitude" >
                     </md-input-container>
 
                     <md-input-container class="md-block" flex-gt-sm=>
                         <label>Longitude</label>
-                        <input ng-model="new_application.project_location.longitude" required>
+                        <input ng-model="new_application.project_location.longitude" >
                     </md-input-container>
                 </div>
 
@@ -390,10 +390,10 @@
                 <p>10. I understand that the information stated in this application are all true and correct and any omission of facts therein shall cause the disapproval of this application and/or cancellation of the permit that may be issued to me.</p>
                 <br>
                 <p>11. I understand that the filing of this application conveys no right to take, collect or possess any wildlife until a permit is issued to me by the PCSD.</p>
-                <br>
+                <!-- <br>
                 <p>12. The application fee in the amount of <input type="text" class="m-l-5 m-r-5" ng-model="new_application.application_fee"> made payable to the PCSDS with Official Receipt No.
                     <input type="text" class="m-l-5 m-r-5" ng-model="new_application.or_no">  is herewith enclosed. Non- approval or non-issuance of the permit does not entitle me to a refund of the fee.</p>
-                
+                 -->
                 <hr class="m-t-40">
                 
                 <h4 class="col-blue-grey">
@@ -460,7 +460,7 @@
             <div ng-show=" is_loading " layout="row" layout-sm="column" layout-align="space-around">
                 <md-progress-circular md-mode="indeterminate"></md-progress-circular>
             </div>
-            <md-button ng-hide=" is_loading " ng-disabled="form_online_application.$invalid" ng-click="submit_application(new_application,'Application for Wildlife Special Use Permit RFF')" 
+            <md-button ng-hide=" is_loading " ng-disabled="form_online_application.$invalid" ng-click="submit_application(new_application,'Application for Wildlife Special Use Permit RFF','WSUP_RFF')" 
                 class="md-primary md-raised md-block" >
                 <strong class="font-24">Submit Application</strong>
             </md-button>

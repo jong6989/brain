@@ -12,6 +12,7 @@ myAppModule.controller('application_controller', function ($scope, $http, $timeo
     $scope.photo_uploading_rate = 0;
     $scope.picFile = null;
     $scope.is_using_camera = false;
+    if($localStorage.brain_online_application == undefined) $localStorage.brain_online_application = {};
 
     $scope.clear_cropping_image = ()=>{
         $scope.picFile = null;
@@ -89,15 +90,22 @@ myAppModule.controller('application_controller', function ($scope, $http, $timeo
     });
 
 
-    $scope.initData = function(){
-        $scope.new_application = "";
-        $scope.new_application = {};
-        $scope.new_application.applicant = $scope.user.data.full_name;
-        $scope.new_application.contact = $scope.user.data.current_phone;
-        $scope.new_application.attachments = [];
-        $scope.new_application.mode = "online";
-        $scope.new_application.temporary_id = "";
-        $scope.new_application.status = "pending";
+    $scope.initData = function(n){
+        if($localStorage.brain_online_application[n] == undefined){
+            $scope.new_application = "";
+            $scope.new_application = {};
+            $scope.new_application.applicant = $scope.user.data.full_name;
+            $scope.new_application.contact = $scope.user.data.current_phone;
+            $scope.new_application.attachments = [];
+            $scope.new_application.mode = "online";
+            $scope.new_application.temporary_id = "";
+            $scope.new_application.status = "pending";
+            $interval(()=>{
+                $localStorage.brain_online_application[n] = $scope.new_application;
+            },30000);
+        }else {
+            $scope.new_application = $localStorage.brain_online_application[n];
+        }
     };
 
     $scope.myDate = new Date();
@@ -121,7 +129,7 @@ myAppModule.controller('application_controller', function ($scope, $http, $timeo
         $scope.new_application.place_of_origin.barangay = null;
     };
 
-    $scope.submit_application = function(application,key){
+    $scope.submit_application = function(application,key,n){
         //required a 2 x 2 Photo
         if($scope.new_application.applicant_photo == 'images/user.png'){
             $scope.toast("Please upload a photo!");
@@ -148,6 +156,7 @@ myAppModule.controller('application_controller', function ($scope, $http, $timeo
                 }else {
                     $scope.toast(" Transaction Started, Please Wait for a responce within 3 days... Your Transaction ID is :  " + data.data.data);
                     $scope.selectedIndex = 0;
+                    $localStorage.brain_online_application[n] = undefined;
                     $scope.initData();
                 }
             }

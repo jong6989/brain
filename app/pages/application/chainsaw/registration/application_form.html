@@ -1,4 +1,4 @@
-<div flex layout="column" md-whiteframe="3" ng-init=" initData() " layout-padding="50" layout-margin class="md-card p-l-20 p-r-20">
+<div flex layout="column" md-whiteframe="3" ng-init=" initData('CR') " layout-padding="50" layout-margin class="md-card p-l-20 p-r-20">
     <form name="form_online_application" >
         <div flex layout-gt-xs="row" layout-xs="column">
             <div flex flex-gt-xs="15" layout-align="center center">
@@ -147,7 +147,7 @@
             <div ng-show=" is_loading " layout="row" layout-sm="column" layout-align="space-around">
                 <md-progress-circular md-mode="indeterminate"></md-progress-circular>
             </div>
-            <md-button ng-hide=" is_loading " ng-disabled="form_online_application.$invalid" ng-click="submit_application(new_application,'Application for Chainsaw Registration')" 
+            <md-button ng-hide=" is_loading " ng-disabled="form_online_application.$invalid" ng-click="submit_application(new_application,'Application for Chainsaw Registration','CR')" 
                 class="md-primary md-raised md-block" >
                 <strong class="font-24">Submit Application</strong>
             </md-button>
