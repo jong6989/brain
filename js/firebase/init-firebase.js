@@ -1,4 +1,4 @@
-var config = {
+var fire_config = {
 	apiKey: "AIzaSyDJnCE34jNQ8mfQAcBt1zlGj5CJZwaOYfM",
 	authDomain: "pcsd-app.firebaseapp.com",
 	databaseURL: "https://pcsd-app.firebaseio.com",
@@ -6,7 +6,7 @@ var config = {
 	storageBucket: "pcsd-app.appspot.com",
 	messagingSenderId: "687215095072"
 };
-firebase.initializeApp(config);
+firebase.initializeApp(fire_config);
 
 firebase.firestore().settings({
 	cacheSizeBytes: firebase.firestore.CACHE_SIZE_UNLIMITED
@@ -14,7 +14,7 @@ firebase.firestore().settings({
 
 firebase.firestore().enablePersistence()
 
-var db_list = ["transactions","datasets"];
+var db_list = ["transactions","notifications","chats"];
 var fire = {};
 var db = firebase.firestore();
 

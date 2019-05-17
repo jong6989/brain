@@ -36,6 +36,11 @@ document.write(
 if(window.localStorage["ngStorage-brain_app_user"] !== undefined){
     document.write(
         `
+        <script src="js/firebase/firebase-app.js"></script>
+        <script src="js/firebase/firebase-auth.js"></script>
+        <script src="js/firebase/firebase-firestore.js"></script>
+        <script src="js/firebase/init-firebase.js"></script>
+
         <script src="plugins/momentjs/moment.js"></script>
 
         <script src="js/ng-file-upload-bower-12.2.13/ng-file-upload-shim.js"></script>

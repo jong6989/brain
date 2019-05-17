@@ -453,7 +453,7 @@ myAppModule.controller('AppCtrl', function ($scope,$window,$filter, $http,$timeo
         $scope.toast("Transaction " + data.data.data[0].data.transaction_id + " : " + data.data.data[0].data.message);
       }
       $scope.notifs = (data.data.status == 1) ? data.data.data : [];
-      $timeout(()=>{ $scope.load_notifs();},3000);
+      $timeout(()=>{ $scope.load_notifs();},5000);
     });
   }
 

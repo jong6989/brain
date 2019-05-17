@@ -12,6 +12,7 @@ myAppModule.controller('application_controller', function ($scope, $http, $timeo
     $scope.photo_uploading_rate = 0;
     $scope.picFile = null;
     $scope.is_using_camera = false;
+    $scope.attachment_select_index = -1;
     if($localStorage.brain_online_application == undefined) $localStorage.brain_online_application = {};
 
     $scope.clear_cropping_image = ()=>{
@@ -28,6 +29,10 @@ myAppModule.controller('application_controller', function ($scope, $http, $timeo
 
     $scope.upload_process = ()=>{
         return Upload.isUploadInProgress();
+    }
+
+    $scope.change_attachment_index = (i)=>{
+        $scope.attachment_select_index = i;
     }
 
     $scope.upload_photo = function(dataUrl, name){
@@ -102,7 +107,7 @@ myAppModule.controller('application_controller', function ($scope, $http, $timeo
             $scope.new_application.status = "pending";
             $interval(()=>{
                 $localStorage.brain_online_application[n] = $scope.new_application;
-            },30000);
+            },10000);
         }else {
             $scope.new_application = $localStorage.brain_online_application[n];
         }
@@ -154,11 +159,23 @@ myAppModule.controller('application_controller', function ($scope, $http, $timeo
                 if(data.data.status == 0){
                     $scope.toast(data.data.error + "  : " + data.data.hint);
                 }else {
+                    let id = (typeof "" == typeof data.data.data) ? data.data.data : `${data.data.data}`;
+                    fire.db.transactions.set(id,
+                        {
+                            "data" : { "application": application },
+                            "date" : $scope.date_now(),
+                            "id" : id,
+                            "status" : "0",
+                            "user" : $scope.user,
+                            "name" : key
+                        }
+                    );
                     $scope.toast(" Transaction Started, Please Wait for a responce within 3 days... Your Transaction ID is :  " + data.data.data);
                     $scope.selectedIndex = 0;
                     $localStorage.brain_online_application[n] = undefined;
                     $scope.initData();
                 }
+                
             }
         };
         $utils.api(q);
@@ -178,10 +195,15 @@ myAppModule.controller('application_controller', function ($scope, $http, $timeo
                 $scope.uploading_file = false;
                 if(fs.length == (idx + 1) ){
                     $scope.user = $localStorage.brain_app_user = data.data.data.user;
-                    $scope.new_application.attachments.push({
-                        name: data.data.data.file_name,
-                        url : data.data.data.url
-                    })
+                    if($scope.attachment_select_index==-1){
+                        $scope.new_application.attachments.push({
+                            name: data.data.data.file_name,
+                            url : data.data.data.url
+                        })
+                    }else {
+                        $scope.add_attachment(data.data.data.url);
+                    }
+                    
                 }else {
                     upload_file(idx + 1);
                 }
@@ -195,6 +217,11 @@ myAppModule.controller('application_controller', function ($scope, $http, $timeo
             if(list[i] == item) return true;
         };
         return false;
+    }
+
+    $scope.add_attachment = (x)=>{
+        $scope.new_application.attachments[$scope.attachment_select_index].url = x;
+        $scope.close_dialog();
     }
 
 });

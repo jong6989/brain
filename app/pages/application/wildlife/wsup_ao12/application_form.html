@@ -364,34 +364,38 @@
                 </div>
     
                 
-                <div layout="row">
-                  <div flex ng-change="upload_attachments(file_drop)"
-                      ngf-drop ng-model="file_drop"
-                      ngf-allow-dir="true"
-                      ngf-drag-over-class="'dragover'"
-                      multiple="true">
-                    <h4 class="col-blue-grey">
-                        Attachments : <cite class="font-12">(upload required documents)</cite>
-                    </h4>
-                    <div>
-                      <ol>
-                        <li ng-repeat="x in new_application.attachments "> {{x.name}} <i class="fa fa-trash col-red pointer" 
-                          ng-click="new_application.attachments.splice($index,1)"></i> </li>
-                      </ol>
-                    </div>
-                    <md-progress-linear md-mode="indeterminate" ng-show="uploading_file"></md-progress-linear>
-                    <md-button class="md-raised" ngf-select="upload_attachments($files)">
-                      upload attachments
-                    </md-button>
-                  </div>
-                  <div flex ng-if="user.data.uploads != undefined">
-                    <h5 class="col-blue-grey">
-                        Select from Previous uploads : 
-                    </h5>
+                <strong>Required Attachments :</strong>
+                <div ng-init="new_application.attachments = [
+                    {name:'Payment of non-re fundable application fee under Section 37 of this Order'},
+                    {name:'Personal Profile/Resume'},
+                    {name:'Research/Project proposal'},
+                    {name:'Endorsement letter '},
+                    {name:'clearance LGU/PAMB/FPIC'},
+                    {name:'Affidavit of Undertaking / Memorandum of Agreement with PCSD'}
+                    ]
+                    ">
                     <ol>
-                      <li class="pointer" ng-repeat="x in user.data.uploads" ng-if="!is_on_file_list(x,new_application.attachments)" ng-click="new_application.attachments.push(x)" > {{x.name}} </li>
+                        <li ng-repeat="x in new_application.attachments">
+                            <cite ng-class="{'col-green':(x.url !== undefined)}">{{x.name}}</cite>
+                            <i ng-hide="x.url == undefined" class="fa fa-check col-green"></i>
+                            <i ng-show="x.url == undefined" class="fa fa-times col-red"></i>
+                            <button class="col-blue" ng-click="change_attachment_index($index);showPrerenderedDialog($event,'upload_modal')">upload</button>
+                        </li>
                     </ol>
-                  </div>
+
+                    <strong ng-init="ia = new_application.attachments.length;ib = new_application.attachments.length + 1;ic = new_application.attachments.length + 2">
+                        Other attachments </strong>
+                        <cite class="col-grey">(Optional for attachments not stated above)</cite>
+                    <div>
+                        <input placeholder="File name" ng-model="new_application.attachments[ia].name" > 
+                    </div>
+                    <div>
+                        <input placeholder="File name" ng-model="new_application.attachments[ib].name" > 
+                    </div>
+                    <div>
+                        <input placeholder="File name" ng-model="new_application.attachments[ic].name" > 
+                    </div>
+
                 </div>
     
             </div>
@@ -407,4 +411,6 @@
         </div>
 
     </form>
+    <!-- modals -->
+    <div style="visibility: hidden" ng-include="'app/templates/modals/select/upload.html'" ></div>
 </div>
