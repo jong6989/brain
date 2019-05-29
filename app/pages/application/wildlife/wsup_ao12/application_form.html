@@ -268,7 +268,7 @@
                 <div>
                     <div ng-repeat="x in new_application.species"  flex layout-gt-sm="row" >
                         <div flex-gt-sm="5">
-                            <i class="fa fa-trash pointer col-red" ng-click="new_application.species.splice(new_application.species.indexOf(x),1);"></i>
+                            <i ng-if="new_application.species.length > 1" class="fa fa-trash pointer col-red" ng-click="new_application.species.splice(new_application.species.indexOf(x),1);"></i>
                             {{$index + 1}}.
                         </div>
     
@@ -277,7 +277,7 @@
                               md-selected-item="new_application.species[new_application.species.indexOf(x)].name"
                               md-search-text="nassn"
                               md-search-text-change="new_application.species[new_application.species.indexOf(x)].name = nassn"
-                              md-items="x in rff_specimen_list"
+                              md-items="x in ao12_specimen_list"
                               md-item-text="x"
                               md-min-length="0"
                               placeholder="Kind/Species">
@@ -366,7 +366,6 @@
                 
                 <strong>Required Attachments :</strong>
                 <div ng-init="new_application.attachments = [
-                    {name:'Payment of non-re fundable application fee under Section 37 of this Order'},
                     {name:'Personal Profile/Resume'},
                     {name:'Research/Project proposal'},
                     {name:'Endorsement letter '},

@@ -131,38 +131,46 @@
     <div ng-if="application.data.rejected != undefined " >
         <hr class="p-t-10">
         Rejected by : <strong>{{ application.data.rejected.staff }} </strong> 
+        Reason : <strong>{{ application.data.rejected.message }} </strong> 
         , on <strong>{{application.data.rejected.date.split(' ')[0]}}</strong>
     </div>
 
     <!-- Accepted Stamp -->
     <div ng-if="application.data.accepted != undefined " >
         <hr class="p-t-10">
-        
-
-        Accepted by : <strong>{{ application.data.accepted.staff }} </strong> 
+        Processed by : <strong>{{ application.data.accepted.staff }} </strong> 
         , on  <strong>{{application.data.accepted.date.split(' ')[0]}}</strong>
     </div>
 
     <!-- Approved Stamp -->
     <div ng-if="application.data.approved != undefined " >
         <hr class="p-t-10">
-        Approved by : <strong>{{ application.data.approved.staff }} </strong> 
-        , on  <strong>{{application.data.accepted.date.split(' ')[0]}}</strong>
+        Reviewed by : <strong>{{ application.data.approved.staff }} </strong> 
+        , on  <strong>{{application.data.approved.date.split(' ')[0]}}</strong>
     </div>
 
     <!-- Recommended Stamp -->
     <div ng-if="application.data.recommended != undefined " >
         <hr class="p-t-10">
         Recommended by : <strong>{{ application.data.recommended.staff }} </strong> 
-        , on  <strong>{{application.data.accepted.date.split(' ')[0]}}</strong>
+        , on  <strong>{{application.data.recommended.date.split(' ')[0]}}</strong>
     </div>
 
     <!-- Acknowledged Stamp -->
     <div ng-if="application.data.acknowledged != undefined " >
-        <hr class="p-t-10">
-        Acknowledged by : <strong>{{ application.data.acknowledged.staff }} </strong> 
-        , on  <strong>{{application.data.accepted.date.split(' ')[0]}}</strong>
-        
-    </div>
+            <hr class="p-t-10">
+            Approved by : <strong>{{ application.data.acknowledged.staff }} </strong>
+            , on  <strong>{{application.data.acknowledged.date.split(' ')[0]}}</strong>
+            <br>
+            Expiration : <strong>{{application.expiration | date}}</strong>
+            
+            <md-divider class="m-t-20 m-b-20"></md-divider>
+            <div class="md-title">Digital Permit</div>
+            <div id="wsup_rff_qr" ng-init="generate_qr('wsup_rff_qr', qr_address + '#!?type=wsup_rff&id=' + application.id)"></div>
+            <md-button class="md-raised m-t-20" ng-click="save_qr('wsup_rff_qr','WSUP_RFF-'+application.id+'-'+application.data.acknowledged.date.split(' ')[0])">
+                Save QR
+            </md-button>
+        </div>
+    <md-divider class="m-t-20 m-b-20"></md-divider>
 
 </div>

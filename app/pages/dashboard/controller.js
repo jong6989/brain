@@ -11,12 +11,15 @@ myAppModule.controller('applicant_dashboard_controller', function ($scope, $http
     ];
 
     $scope.load_my_applications = ()=>{
-        $http.get(api_address + "?action=applicant/transaction/single&user_id=" + $scope.user.id ).then(function(data){
-            if(JSON.stringify(data.data.data) != my_applications){
-                my_applications = JSON.stringify(data.data.data);
-                $localStorage.my_applications = data.data.data;
-            }
-            $timeout(()=>{ $scope.load_my_applications();},4000);
+        fire.db.transactions.query.where("user.id", "==", `${$scope.user.id}`)
+        .onSnapshot(function(querySnapshot) {
+            var d = [];
+            querySnapshot.forEach(function(doc) {
+                let z = doc.data();
+                d.push(z);
+            });
+            $localStorage.my_applications = d;
+            $scope.$apply();
         });
     };
 

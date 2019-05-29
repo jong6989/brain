@@ -15,6 +15,9 @@ myAppModule.controller('application_controller', function ($scope, $http, $timeo
     $scope.attachment_select_index = -1;
     if($localStorage.brain_online_application == undefined) $localStorage.brain_online_application = {};
 
+    $scope.chainsaw_bran_list = [];
+    $scope.ao12_specimen_list = [];
+
     $scope.clear_cropping_image = ()=>{
         $scope.picFile = null;
     }
@@ -102,9 +105,7 @@ myAppModule.controller('application_controller', function ($scope, $http, $timeo
             $scope.new_application.applicant = $scope.user.data.full_name;
             $scope.new_application.contact = $scope.user.data.current_phone;
             $scope.new_application.attachments = [];
-            $scope.new_application.mode = "online";
-            $scope.new_application.temporary_id = "";
-            $scope.new_application.status = "pending";
+            $scope.new_application.tin_no = $scope.user.data.tin_no;
             $interval(()=>{
                 $localStorage.brain_online_application[n] = $scope.new_application;
             },10000);
@@ -147,38 +148,58 @@ myAppModule.controller('application_controller', function ($scope, $http, $timeo
             return null;
         }
         $scope.is_loading = true;
-        var q = { 
-            data : {
-                action : "applicant/transaction/create",
-                user_id : $scope.user.id,
-                name : key,
-                data : { application : application }
-            },
-            callBack : function(data){
-                $scope.is_loading = false;
-                if(data.data.status == 0){
-                    $scope.toast(data.data.error + "  : " + data.data.hint);
-                }else {
-                    let id = (typeof "" == typeof data.data.data) ? data.data.data : `${data.data.data}`;
-                    fire.db.transactions.set(id,
-                        {
-                            "data" : { "application": application },
-                            "date" : $scope.date_now(),
-                            "id" : id,
-                            "status" : "0",
-                            "user" : $scope.user,
-                            "name" : key
-                        }
-                    );
-                    $scope.toast(" Transaction Started, Please Wait for a responce within 3 days... Your Transaction ID is :  " + data.data.data);
-                    $scope.selectedIndex = 0;
-                    $localStorage.brain_online_application[n] = undefined;
-                    $scope.initData();
-                }
-                
+        let tId = Date.now();
+        fire.db.transactions.query.add(
+            {
+                "data" : { "application": application },
+                "date" : tId,
+                "status" : "0",
+                "user" : $scope.user,
+                "name" : key
             }
-        };
-        $utils.api(q);
+        ).then(ref=>{
+            fire.db.transactions.update(ref.id,{"id":ref.id});
+            $scope.is_loading = false;
+            $scope.toast(" Processing Started, Please Wait for a response within 3 days... Your Transaction ID is :  " + tId);
+            $scope.selectedIndex = 0;
+            $localStorage.brain_online_application[n] = undefined;
+            $scope.initData();
+            $scope.$apply();
+        });
+
+            
+        // var q = { 
+        //     data : {
+        //         action : "applicant/transaction/create",
+        //         user_id : $scope.user.id,
+        //         name : key,
+        //         data : { application : application }
+        //     },
+        //     callBack : function(data){
+        //         $scope.is_loading = false;
+        //         if(data.data.status == 0){
+        //             $scope.toast(data.data.error + "  : " + data.data.hint);
+        //         }else {
+        //             let id = (typeof "" == typeof data.data.data) ? data.data.data : `${data.data.data}`;
+        //             fire.db.transactions.set(id,
+        //                 {
+        //                     "data" : { "application": application },
+        //                     "date" : $scope.date_now(),
+        //                     "id" : id,
+        //                     "status" : "0",
+        //                     "user" : $scope.user,
+        //                     "name" : key
+        //                 }
+        //             );
+        //             $scope.toast(" Transaction Started, Please Wait for a responce within 3 days... Your Transaction ID is :  " + data.data.data);
+        //             $scope.selectedIndex = 0;
+        //             $localStorage.brain_online_application[n] = undefined;
+        //             $scope.initData();
+        //         }
+                
+        //     }
+        // };
+        // $utils.api(q);
     };
 
     $scope.upload_attachments = (fs)=>{
@@ -220,7 +241,9 @@ myAppModule.controller('application_controller', function ($scope, $http, $timeo
     }
 
     $scope.add_attachment = (x)=>{
+        console.log($scope.attachment_select_index);
         $scope.new_application.attachments[$scope.attachment_select_index].url = x;
+        console.log($scope.new_application.attachments[$scope.attachment_select_index].url);
         $scope.close_dialog();
     }
 

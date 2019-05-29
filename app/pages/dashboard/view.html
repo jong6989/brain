@@ -11,7 +11,7 @@
                 <md-card-content >
                     <md-list>
                         <md-list-item ng-repeat="x in $localStorage.my_applications | limitTo : 10" ng-click="set_application(x,$event)" >
-                            {{x.id}} - {{x.date.split(' ')[0] | date}} - {{ getStatusCode(x.status) }}
+                            {{x.date}} - {{x.date | date}} - {{ getStatusCode(x.status) }}
                         </md-list-item>
                     </md-list>
                 </md-card-content>
@@ -19,11 +19,7 @@
 
             <md-divider></md-divider>
             <md-card-actions layout="row" layout-align="end center">
-                <div ng-hide="true" ng-repeat="x in notifs | filter : { 'status' : 0 } as newNotifs"></div>
-                <md-button ng-disabled="newNotifs.length == 0" ng-click="toggleRight()" > 
-                        <md-tooltip md-direction="top">Notifications</md-tooltip>
-                    <i class="fa fa-envelope" ng-class="{'col-green': (newNotifs.length > 0) }"> {{newNotifs.length}}</i> 
-                </md-button>
+                
                 <a href="#!/pages/tables/application" ng-hide="$localStorage.my_applications.length == 0">
                     <md-button>
                             <md-tooltip md-direction="top">Click to view all Applications</md-tooltip>
@@ -33,7 +29,7 @@
                 <md-menu>
                     <md-button aria-label="Application Menus" class="" ng-click="$mdMenu.open()">
                         <md-tooltip md-direction="top">Create Permit Application</md-tooltip>
-                        <strong class="col-pink">Add</strong>
+                        <strong class="col-pink"> <i class="fa fa-plus"></i> Add</strong>
                     </md-button>
                     <md-menu-content width="4" ng-mouseleave="$mdMenu.close()">
                         <md-menu-item ng-repeat="x in application_menus">
@@ -97,11 +93,14 @@
                 <h3 class="md-title">Chainsaw</h3>
             </md-card-title>
             <md-card-content>
+                <a ng-href="#!/pages/application/chainsaw/purchase">
+                    <md-tooltip md-direction="top">Permit to Purchase/Import</md-tooltip>
+                    Permit to Purchase/Import
+                </a>
+                <hr>
                 <a ng-href="#!/pages/application/chainsaw/registration">
                     <md-tooltip md-direction="top">Registration of Chainsaw</md-tooltip>
                     Chainsaw Registration
-                    <br>
-                    <small></small><br>
                 </a>
             </md-card-content>
         </md-card>

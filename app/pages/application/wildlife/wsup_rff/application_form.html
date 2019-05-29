@@ -267,7 +267,7 @@
                 <div>
                     <div ng-repeat="x in new_application.species"  flex layout-gt-sm="row" >
                         <div flex-gt-sm="5">
-                            <i class="fa fa-trash pointer col-red" ng-click="new_application.species.splice(new_application.species.indexOf(x),1);"></i>
+                            <i ng-if="new_application.species.length > 1" class="fa fa-trash pointer col-red" ng-click="new_application.species.splice(new_application.species.indexOf(x),1);"></i>
                             {{$index + 1}}.
                         </div>
     
@@ -335,7 +335,7 @@
                 <div>
                     <div ng-repeat="x in new_application.collectors"  flex layout-gt-sm="row" >
                         <div flex-gt-sm="5">
-                            <i class="fa fa-trash pointer col-red" ng-click="new_application.collectors.splice(new_application.collectors.indexOf(x),1);"></i>
+                            <i ng-if="new_application.collectors.length > 1" class="fa fa-trash pointer col-red" ng-click="new_application.collectors.splice(new_application.collectors.indexOf(x),1);"></i>
                             {{$index + 1}}.
                         </div>
     
@@ -353,14 +353,14 @@
                 </div>
 
                 <br>
-                <div>7.	The estimated cost of my project is PhP <input type="text" class="m-l-5 m-r-5" placeholder="ammount" ng-model="new_application.project_cost">. </div>
+                <div>7.	The estimated cost of my project is PhP <input type="text" class="m-l-5 m-r-5" placeholder="amount" ng-model="new_application.project_cost">. </div>
                 <br>
 
                 <p>8. The area of my project operation is located at the following:</p>
                 <div class="m-t-20" ng-init="new_application.project_location = {}">
                     <md-input-container class="md-block m-r-10" flex-gt-sm=>
-                        <label>Sitio</label>
-                        <input ng-model="new_application.project_location.sitio" required>
+                        <label>Sitio (optional)</label>
+                        <input ng-model="new_application.project_location.sitio" >
                     </md-input-container>
 
                     <md-input-container class="md-block m-r-10" flex-gt-sm=>
@@ -374,12 +374,12 @@
                     </md-input-container>
 
                     <md-input-container class="md-block" flex-gt-sm=>
-                        <label>Latitude</label>
+                        <label>Latitude (optional)</label>
                         <input ng-model="new_application.project_location.latitude" >
                     </md-input-container>
 
                     <md-input-container class="md-block" flex-gt-sm=>
-                        <label>Longitude</label>
+                        <label>Longitude (optional)</label>
                         <input ng-model="new_application.project_location.longitude" >
                     </md-input-container>
                 </div>

@@ -1,5 +1,5 @@
 
-<div layout="column" style="height:{{get_window_height()}}px;">
+<div layout="column" style="height:{{get_window_height()}}px;" >
 
 	<md-toolbar md-scroll-shrink="" ng-if="true" class="bg-blue-grey"  >
 	    <div class="md-toolbar-tools">
@@ -7,13 +7,8 @@
 	          <i class="fa fa-bars"></i>
 	        </md-button>
 			<h2 flex="" md-truncate="" class="">Online Permitting - {{page_title}}</h2>
-			<div ng-hide="true" ng-repeat="x in notifs | filter : { 'status' : 0 } as newNotifs"></div>
-	        <md-button ng-click="toggleRight()" ng-hide="isOpenRight()" class="md-icon-button animated infinite " ng-class="{'swing' : (newNotifs.length > 0) }" aria-label="Notifications and News">
-				<md-tooltip md-direction="left">Click to open News and Notificatons</md-tooltip>
-				<span class="font-10 col-red" style="position:absolute;left:15px;">
-					{{(newNotifs.length < 10)?'0':'';}}{{newNotifs.length}}
-				</span>
-				<i class="fa fa-bell font-24" ng-class="{'col-yellow' : (newNotifs.length > 0) }"></i>
+					<md-button ng-click="toggleRight()" ng-hide="isOpenRight()" class="md-icon-button animated infinite " ng-class="{'swing' : false }" aria-label="Notifications and News">
+						<i class="fa fa-navicon"></i>
 	        </md-button>
 	    </div>
 	</md-toolbar>
@@ -74,23 +69,38 @@
 
 		<div layout-padding="10"  class="m-t--15" ng-init="load_notifs();" style="height:{{get_window_height() - 160}}px">
 			
-			<md-tabs md-dynamic-height md-border-bottom md-selected="0" >
+			<md-tabs md-dynamic-height md-border-bottom md-selected="0" ng-init="">
 					<md-tab label="Notifications">
-						<md-content class="md-padding" layout="column">
-								<p ng-if="notifs.length == 0 "> 
+						<!-- <md-content class="md-padding" layout="column">
+								<p ng-if="false"> 
 									No notifications available...
 								</p>
 								<md-list flex>
-										<md-list-item class="md-3-line" ng-repeat="x in notifs">
-											<a ng-href="{{x.data.url}}" ng-click="notifs[$index].status = 1;close_right_side()" class="md-list-item-text p-b-5 p-t-5" layout="column">
-												<h3 ng-class="{ 'col-green' : (x.status ==0) }">{{ x.name }}</h3>
-												<h4>Transaction ID : {{ x.data.transaction_id }}</h4>
-												<p>Message : {{x.data.message}}</p>
-											</a>
+										<md-list-item class="md-3-line" ng-repeat="" ng-click="notif_seen(i);open_modal($event,'app/templates/modals/single/notif.html',{id:i,data:x})" ng-init="passTime = date_gap(now(),x.date)">
+											<h3 ng-class="{ 'col-green' : (x.status ==0) }">{{ x.name }}</h3>
+											<h4>Transaction #{{ x.transaction_id }} | <small> {{passTime}} </small> </h4>
+											<p>Message : {{x.message}}</p>
 											<md-divider>  </md-divider>
 										</md-list-item>
 								</md-list>
+						</md-content> -->
+
+						<md-content flex>
+                <md-list class="md-dense" >
+                    <md-list-item class="md-3-line" ng-repeat="(i,x) in notifs track by i"  ng-init="passTime = date_gap(now(),x.date)"
+                        ng-click="setSelectedData(x);notif_seen(i);open_modal($event,'app/templates/modals/single/notif.html');">
+                        <div class="md-list-item-text" layout="column">
+                            <h3 ng-class="{ 'col-green' : (x.status ==0) }">{{ x.name }}</h3>
+														<h4>{{passTime}}</h4>
+														<p>Message : {{x.message}}</p>
+                            <md-divider></md-divider>
+                        </div>
+                    </md-list-item>
+                    <hr>
+                </md-list>
 						</md-content>
+						
+
 					</md-tab>
 					<md-tab label="News">
 						<md-content layout="column" class="md-padding" >

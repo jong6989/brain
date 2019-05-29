@@ -123,6 +123,7 @@ myAppModule.controller('AppCtrl', function ($scope,$window,$filter, $http,$timeo
   $scope.notifs = [];
   $scope.api_address = api_address;
   $scope.qr_address = qr_address;
+  $scope.selectedData = {};
 
   $scope.toggleLeft = buildDelayedToggler('left');
   $scope.toggleRight = buildToggler('right');
@@ -400,6 +401,32 @@ myAppModule.controller('AppCtrl', function ($scope,$window,$filter, $http,$timeo
     $utils.api(q);
   }
 
+  $scope.notif_seen = (id)=>{
+    fire.db.notifications.update(id,{"status":1,"seen": Date.now()});
+  }
+
+  $scope.open_modal = (ev,template)=>{
+    function newCtrl($scope, $mdDialog) {
+      let d = $scope.selectedData;
+      $scope.data = d;
+      $scope.cancel = function() {
+          $mdDialog.cancel();
+      };
+    }
+    $mdDialog.show({
+        controller: newCtrl,
+        templateUrl: template,
+        parent: angular.element(document.body),
+        targetEvent: ev,
+        clickOutsideToClose:true,
+        fullscreen: true
+      });
+  }
+
+  $scope.setSelectedData = (x)=>{
+    $scope.selectedData = x;
+  }
+
   $scope.run_initials = function(){
     if($localStorage.brain_app_user !== undefined && $localStorage.brain_current_view !== undefined && $localStorage.brain_content_page !== undefined){
       $scope.current_view = $localStorage.brain_current_view;
@@ -446,15 +473,24 @@ myAppModule.controller('AppCtrl', function ($scope,$window,$filter, $http,$timeo
     );
   }
 
+
   $scope.load_notifs = ()=>{
-    $http.get(api_address + "?action=applicant/notification/load&user_id=" + $scope.user.id ).then(function(data){
-      var new_count = (data.data.status == 1) ? data.data.data.length : 0;
-      if($scope.notifs.length < new_count && $scope.notifs.length > 0){
-        $scope.toast("Transaction " + data.data.data[0].data.transaction_id + " : " + data.data.data[0].data.message);
-      }
-      $scope.notifs = (data.data.status == 1) ? data.data.data : [];
-      $timeout(()=>{ $scope.load_notifs();},5000);
+    fire.db.notifications.query.where("type","==","applicant").where("user","==",$scope.user.id).orderBy("date","desc").limit(100).onSnapshot(qs=>{
+      let x = {};
+      qs.forEach(doc=>{
+          x[doc.id] = doc.data();
+      });
+      $scope.notifs = x;
+      console.log(x);
     });
+    // $http.get(api_address + "?action=applicant/notification/load&user_id=" + $scope.user.id ).then(function(data){
+    //   var new_count = (data.data.status == 1) ? data.data.data.length : 0;
+    //   if($scope.notifs.length < new_count && $scope.notifs.length > 0){
+    //     $scope.toast("Transaction " + data.data.data[0].data.transaction_id + " : " + data.data.data[0].data.message);
+    //   }
+    //   $scope.notifs = (data.data.status == 1) ? data.data.data : [];
+    //   $timeout(()=>{ $scope.load_notifs();},5000);
+    // });
   }
 
   $scope.generate_qr = (id,text)=>{

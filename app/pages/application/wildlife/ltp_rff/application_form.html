@@ -132,7 +132,7 @@
             <div>
                 <div ng-repeat="x in new_application.specimen"  flex layout-gt-sm="row" >
                     <div flex-gt-sm="5">
-                        <i class="fa fa-trash pointer col-red" ng-click="new_application.specimen.splice(new_application.specimen.indexOf(x),1);"></i>
+                        <i ng-if="new_application.specimen.length > 1" class="fa fa-trash pointer col-red" ng-click="new_application.specimen.splice(new_application.specimen.indexOf(x),1);"></i>
                         {{$index + 1}}.
                     </div>
 
@@ -336,7 +336,7 @@
         <div ng-show=" is_loading " layout="row" layout-sm="column" layout-align="space-around">
             <md-progress-circular md-mode="indeterminate"></md-progress-circular>
         </div>
-        <md-button ng-hide=" is_loading " ng-disabled="form_online_ltp_application.$invalid" ng-click="submit_application(new_application,'Application for Local Transport Permit RFF')" 
+        <md-button ng-hide=" is_loading " ng-disabled="form_online_ltp_application.$invalid" ng-click="submit_application(new_application,'Application for Local Transport Permit RFF','LTP_RFF')" 
             class="md-primary md-raised md-block" >
             <strong class="font-24">Submit Application</strong>
         </md-button>
