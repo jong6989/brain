@@ -8,7 +8,7 @@
 	        </md-button>
 			<h2 flex="" md-truncate="" class="">Online Permitting - {{page_title}}</h2>
 					<md-button ng-click="toggleRight()" ng-hide="isOpenRight()" class="md-icon-button animated infinite " ng-class="{'swing' : false }" aria-label="Notifications and News">
-						<i class="fa fa-navicon"></i>
+						<i class="fa fa-envelope"></i>
 	        </md-button>
 	    </div>
 	</md-toolbar>
@@ -88,7 +88,7 @@
 						<md-content flex>
                 <md-list class="md-dense" >
                     <md-list-item class="md-3-line" ng-repeat="(i,x) in notifs track by i"  ng-init="passTime = date_gap(now(),x.date)"
-                        ng-click="setSelectedData(x);notif_seen(i);open_modal($event,'app/templates/modals/single/notif.html');">
+												ng-href="#!/pages/single/notification?id={{i}}" ng-click="close_right_side();">
                         <div class="md-list-item-text" layout="column">
                             <h3 ng-class="{ 'col-green' : (x.status ==0) }">{{ x.name }}</h3>
 														<h4>{{passTime}}</h4>

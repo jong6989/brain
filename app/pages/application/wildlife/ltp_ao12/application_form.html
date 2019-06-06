@@ -17,7 +17,7 @@
 
         <!-- title -->
         <div flex class="p-t-10 p-b-10">
-            <h3 class="col-blue-grey">ONLINE APPLICATION FOR LOCAL TRANSPORT PERMIT OF REEF-FISH-FOR-FOOD</h3>
+            <h3 class="col-blue-grey">ONLINE APPLICATION FOR LOCAL TRANSPORT PERMIT OF WILDLIFE PRODUCTS</h3>
         </div>
         
         <md-divider></md-divider>
@@ -141,7 +141,7 @@
                           md-selected-item="new_application.specimen[new_application.specimen.indexOf(x)].species_name"
                           md-search-text="nass"
                           md-search-text-change="new_application.specimen[new_application.specimen.indexOf(x)].species_name = nass"
-                          md-items="x in rff_specimen_list"
+                          md-items="x in ao12_specimen_list"
                           md-item-text="x"
                           md-min-length="0"
                           placeholder="Species Name">
@@ -306,29 +306,29 @@
                     {name:'Image of Actual Specimen'}
                     ]
                     ">
-                    <ol>
-                        <li ng-repeat="x in new_application.attachments">
-                            <cite ng-class="{'col-green':(x.url !== undefined)}">{{x.name}}</cite>
-                            <i ng-hide="x.url == undefined" class="fa fa-check col-green"></i>
-                            <i ng-show="x.url == undefined" class="fa fa-times col-red"></i>
-                            <button class="col-blue" ng-click="change_attachment_index($index);showPrerenderedDialog($event,'upload_modal')">upload</button>
-                        </li>
-                    </ol>
+                <ol>
+                    <li ng-repeat="x in new_application.attachments">
+                        <cite ng-class="{'col-green':(x.url !== undefined)}">{{x.name}}</cite>
+                        <i ng-hide="x.url == undefined" class="fa fa-check col-green"></i>
+                        <i ng-show="x.url == undefined" class="fa fa-times col-red"></i>
+                        <button class="col-blue" ng-click="change_attachment_index($index);showPrerenderedDialog($event,'upload_modal')">upload</button>
+                    </li>
+                </ol>
 
-                    <strong ng-init="ia = new_application.attachments.length;ib = new_application.attachments.length + 1;ic = new_application.attachments.length + 2">
-                        Other attachments </strong>
-                        <cite class="col-grey">(Optional for attachments not stated above)</cite>
-                    <div>
-                        <input placeholder="File name" ng-model="new_application.attachments[ia].name" > 
-                    </div>
-                    <div>
-                        <input placeholder="File name" ng-model="new_application.attachments[ib].name" > 
-                    </div>
-                    <div>
-                        <input placeholder="File name" ng-model="new_application.attachments[ic].name" > 
-                    </div>
-
+                <strong ng-init="ia = new_application.attachments.length;ib = new_application.attachments.length + 1;ic = new_application.attachments.length + 2">
+                    Other attachments </strong>
+                    <cite class="col-grey">(Optional for attachments not stated above)</cite>
+                <div>
+                    <input placeholder="File name" ng-model="new_application.attachments[ia].name" > 
                 </div>
+                <div>
+                    <input placeholder="File name" ng-model="new_application.attachments[ib].name" > 
+                </div>
+                <div>
+                    <input placeholder="File name" ng-model="new_application.attachments[ic].name" > 
+                </div>
+
+            </div>
 
         </div>
 
@@ -336,7 +336,7 @@
         <div ng-show=" is_loading " layout="row" layout-sm="column" layout-align="space-around">
             <md-progress-circular md-mode="indeterminate"></md-progress-circular>
         </div>
-        <md-button ng-hide=" is_loading " ng-disabled="form_online_ltp_application.$invalid" ng-click="submit_application(new_application,'Application for Local Transport Permit RFF','ltp_rff')" 
+        <md-button ng-hide=" is_loading " ng-disabled="form_online_ltp_application.$invalid" ng-click="submit_application(new_application,'Application for Local Transport Permit AO12','ltp_ao12')" 
             class="md-primary md-raised md-block" >
             <strong class="font-16">Submit Application</strong>
         </md-button>

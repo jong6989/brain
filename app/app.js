@@ -215,6 +215,10 @@ myAppModule.controller('AppCtrl', function ($scope,$window,$filter, $http,$timeo
     }
   };
 
+  $scope.openQrPage = (type,id,tid)=> {
+    $location.url(`/pages/single/qr/?type=${type}&id=${id}&tid=${tid}`);
+  };
+
   $scope.import_report = function(id){
       return Excel.getExcel(id,$scope);
   };
@@ -329,6 +333,7 @@ myAppModule.controller('AppCtrl', function ($scope,$window,$filter, $http,$timeo
       contentElement: '#' + ID,
       parent: angular.element(document.body),
       targetEvent: ev,
+      fullscreen : true,
       clickOutsideToClose: true
     });
   };
@@ -453,13 +458,13 @@ myAppModule.controller('AppCtrl', function ($scope,$window,$filter, $http,$timeo
 
   $scope.getStatusCode = function(n){
     if(n==0)return "Submitted";
-    if(n==1)return "Received, Reviewing";
+    if(n==1)return "Received and under processing";
     if(n==2)return "Rejected";
-    if(n==3)return "Accepted, On Process";
-    if(n==4)return "Approved, On Process";
-    if(n==5)return "Recomended, On Process";
-    if(n==6)return "Acknowledged, Ready to Use";
-    if(n==7)return "Closed";
+    if(n==3)return "Processed and under review";
+    if(n==4)return "Reviewed and for recommendation";
+    if(n==5)return "Recomended and for approval";
+    if(n==6)return "Approved, for release";
+    if(n==7)return "Used";
   };
 
   $scope.alert = (title,text,event)=>{
@@ -481,16 +486,7 @@ myAppModule.controller('AppCtrl', function ($scope,$window,$filter, $http,$timeo
           x[doc.id] = doc.data();
       });
       $scope.notifs = x;
-      console.log(x);
     });
-    // $http.get(api_address + "?action=applicant/notification/load&user_id=" + $scope.user.id ).then(function(data){
-    //   var new_count = (data.data.status == 1) ? data.data.data.length : 0;
-    //   if($scope.notifs.length < new_count && $scope.notifs.length > 0){
-    //     $scope.toast("Transaction " + data.data.data[0].data.transaction_id + " : " + data.data.data[0].data.message);
-    //   }
-    //   $scope.notifs = (data.data.status == 1) ? data.data.data : [];
-    //   $timeout(()=>{ $scope.load_notifs();},5000);
-    // });
   }
 
   $scope.generate_qr = (id,text)=>{

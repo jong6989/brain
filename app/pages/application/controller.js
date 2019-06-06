@@ -1,6 +1,6 @@
 'use strict';
 
-myAppModule.controller('application_controller', function ($scope, $http, $timeout, $utils, $mdDialog, $interval, Upload, $localStorage) {
+myAppModule.controller('application_controller', function ($scope, $http, $location, $utils, $mdDialog, $interval, Upload, $localStorage) {
     $scope.selectedIndex = 0;
     $scope.mun = [];
     $scope.places_of_transport = [];
@@ -15,7 +15,7 @@ myAppModule.controller('application_controller', function ($scope, $http, $timeo
     $scope.attachment_select_index = -1;
     if($localStorage.brain_online_application == undefined) $localStorage.brain_online_application = {};
 
-    $scope.chainsaw_bran_list = [];
+    $scope.chainsaw_brand_list = [];
     $scope.ao12_specimen_list = [];
 
     $scope.clear_cropping_image = ()=>{
@@ -55,8 +55,6 @@ myAppModule.controller('application_controller', function ($scope, $http, $timeo
             $scope.photo_uploading_rate = parseInt(100.0 * evt.loaded / evt.total);
         });
     };
-
-    // $scope.organization_list = ['Fisherman Association','mangingisda ng Palawan','Business Owners Palawan'];
 
     //initialize data
     $http.get(api_address + "json/permitting/specimen_classification.json").then(function(data){
@@ -135,7 +133,7 @@ myAppModule.controller('application_controller', function ($scope, $http, $timeo
         $scope.new_application.place_of_origin.barangay = null;
     };
 
-    $scope.submit_application = function(application,key,n){
+    $scope.submit_application = function(application,key,type){
         //required a 2 x 2 Photo
         if($scope.new_application.applicant_photo == 'images/user.png'){
             $scope.toast("Please upload a photo!");
@@ -148,7 +146,7 @@ myAppModule.controller('application_controller', function ($scope, $http, $timeo
             return null;
         }
         $scope.is_loading = true;
-        let tId = Date.now();
+        const tId = Date.now();
         fire.db.transactions.query.add(
             {
                 "data" : { "application": application },
@@ -161,45 +159,13 @@ myAppModule.controller('application_controller', function ($scope, $http, $timeo
             fire.db.transactions.update(ref.id,{"id":ref.id});
             $scope.is_loading = false;
             $scope.toast(" Processing Started, Please Wait for a response within 3 days... Your Transaction ID is :  " + tId);
-            $scope.selectedIndex = 0;
-            $localStorage.brain_online_application[n] = undefined;
+            // $scope.selectedIndex = 0;
+            // $localStorage.brain_online_application[n] = undefined;
             $scope.initData();
             $scope.$apply();
+            $scope.openQrPage(type,ref.id,tId);
         });
 
-            
-        // var q = { 
-        //     data : {
-        //         action : "applicant/transaction/create",
-        //         user_id : $scope.user.id,
-        //         name : key,
-        //         data : { application : application }
-        //     },
-        //     callBack : function(data){
-        //         $scope.is_loading = false;
-        //         if(data.data.status == 0){
-        //             $scope.toast(data.data.error + "  : " + data.data.hint);
-        //         }else {
-        //             let id = (typeof "" == typeof data.data.data) ? data.data.data : `${data.data.data}`;
-        //             fire.db.transactions.set(id,
-        //                 {
-        //                     "data" : { "application": application },
-        //                     "date" : $scope.date_now(),
-        //                     "id" : id,
-        //                     "status" : "0",
-        //                     "user" : $scope.user,
-        //                     "name" : key
-        //                 }
-        //             );
-        //             $scope.toast(" Transaction Started, Please Wait for a responce within 3 days... Your Transaction ID is :  " + data.data.data);
-        //             $scope.selectedIndex = 0;
-        //             $localStorage.brain_online_application[n] = undefined;
-        //             $scope.initData();
-        //         }
-                
-        //     }
-        // };
-        // $utils.api(q);
     };
 
     $scope.upload_attachments = (fs)=>{
