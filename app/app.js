@@ -124,6 +124,9 @@ myAppModule.controller('AppCtrl', function ($scope,$window,$filter, $http,$timeo
   $scope.api_address = api_address;
   $scope.qr_address = qr_address;
   $scope.selectedData = {};
+  $scope.chat_list = [];
+  $scope.newChat = '';
+  $scope.chatFAB = {};
 
   $scope.toggleLeft = buildDelayedToggler('left');
   $scope.toggleRight = buildToggler('right');
@@ -500,6 +503,59 @@ myAppModule.controller('AppCtrl', function ($scope,$window,$filter, $http,$timeo
     link.setAttribute("download", fileName);
     link.click();
   }
+
+  function gotoBottom(id){
+    setTimeout(()=>{
+        var element = document.getElementById(id);
+        element.scrollTop = element.scrollHeight - 200;
+    },1500);
+  }
+
+  $scope.reset_chat_fab = () =>{
+    fire.db.chats.update($scope.user.id,{received: 0});
+  };
+
+  $scope.run_chat = ()=>{
+    fire.db.chats.when($scope.user.id,(res)=>{
+      if(res === undefined){
+        fire.db.chats.set($scope.user.id,{
+          name: $scope.user.data.first_name + ' ' + $scope.user.data.last_name,
+          count: 0,
+          received: 0,
+          type: 'public'
+        })
+      }else {
+        $scope.chatFAB = res;
+      }
+    });
+  
+    fire.db.chats.query.doc($scope.user.id).collection('treads').orderBy('date').onSnapshot(qs => {
+      let li = [];
+      qs.forEach(doc => {
+        li.push(doc.data());
+      });
+      $scope.chat_list = li;
+    });
+  };
+
+  $scope.sendChat = (m) => {
+    let chat = m;
+    $scope.newChat = '';
+    const d = {
+      date : Date.now(),
+      message : chat,
+      user: $scope.user.data.first_name + " " + $scope.user.data.last_name
+    };
+    $scope.chat_list.push(d);
+    gotoBottom('chat_holder');
+    fire.db.chats.query.doc($scope.user.id).collection('treads').add(d).then(()=> {
+      fire.db.chats.update($scope.user.id,{count: firebase.firestore.FieldValue.increment(1)})
+    }).catch((err) => {
+      console.log(err);
+      $scope.newChat = chat;
+      $scope.toast('Error sending message... try again later.')
+    });
+  };
   
 
   if($localStorage.brain_app_user == undefined){
