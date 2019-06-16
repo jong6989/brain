@@ -8,8 +8,8 @@
     <hr>
 
     <div ng-show=" is_loading " layout="row" layout-sm="column" layout-align="space-around">
-            <md-progress-circular md-mode="indeterminate"></md-progress-circular>
-        </div>
+        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </div>
     <md-content ng-hide=" is_loading " ng-repeat="x in app_templates" ng-if="application.name == x.name ">
         <div ng-include="x.url"></div>
     </md-content> 

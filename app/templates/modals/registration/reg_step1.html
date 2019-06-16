@@ -187,7 +187,11 @@
             </div>
         </div>
 
-        <md-button type="submit" ng-disabled="form_new_account.$invalid || new_account.password !== re_password" 
+        <div ng-show=" is_loading " layout="row" layout-sm="column" layout-align="space-around">
+            <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+        </div>
+
+        <md-button ng-hide=" is_loading " type="submit" ng-disabled="form_new_account.$invalid || new_account.password !== re_password" 
             ng-click="register({action:'applicant/account/create',user_name : new_account.user_name,user_pass : new_account.password, data : new_account.data})" class="md-raised md-block md-primary" >
             Submit
         </md-button>

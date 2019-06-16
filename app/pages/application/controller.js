@@ -69,6 +69,10 @@ myAppModule.controller('application_controller', function ($scope, $http, $locat
         $scope.rff_specimen_list = data.data.data; 
     });
 
+    $http.get(api_address + "json/permitting/ao12_specimen.json").then(function(data){
+        $scope.ao12_specimen_list = data.data.data; 
+    });
+
     $http.get(api_address + "json/permitting/permit_types.json").then(function(data){
         $scope.permit_types = data.data.data;
     });
